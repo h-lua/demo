@@ -584,7 +584,7 @@ return {
                     if (show == true) then
                         hdzui.frameSetText(demoCache.hp, data.hp)
                         hdzui.frameSetText(demoCache.mp, data.mp)
-                        hjapi.DzFrameSetTexture(demoCache.bar_hp, data.bar_hp_texture, false)
+                        hjapi.DzFrameSetTexture(demoCache.bar_hp, data.bar_hp_texture, 0)
                         if (data.bar_hp_e > 0) then
                             hdzui.frameSize(demoCache.bar_hp_e, px.hp.w * data.bar_hp_e, px.hp.h)
                         end
@@ -593,7 +593,7 @@ return {
                         end
                         hdzui.frameSetText(demoCache.life_back, data.life_back)
                         hdzui.frameSetText(demoCache.mana_back, data.mana_back)
-                        hjapi.DzFrameSetTexture(demoCache.sign, data.sign)
+                        hjapi.DzFrameSetTexture(demoCache.sign, data.sign, 0)
                         hdzui.frameSetText(demoCache.unit_name, data.unit_name)
                         hdzui.frameSetText(demoCache.attack, data.attack)
                         hdzui.frameSetText(demoCache.attack_speed, data.attack_speed)
@@ -641,9 +641,9 @@ return {
                             if (data.punish_bar > 0) then
                                 hdzui.frameSize(demoCache.bar_punish, data.punish_bar, 0.002)
                                 if (data.punish_danger) then
-                                    hjapi.DzFrameSetTexture(demoCache.bar_punish, "hLua\\ui\\bar_red.tga", false)
+                                    hjapi.DzFrameSetTexture(demoCache.bar_punish, "hLua\\ui\\bar_red.tga", 0)
                                 else
-                                    hjapi.DzFrameSetTexture(demoCache.bar_punish, "hLua\\ui\\bar_yellow.tga", false)
+                                    hjapi.DzFrameSetTexture(demoCache.bar_punish, "hLua\\ui\\bar_yellow.tga", 0)
                                 end
                             else
                                 isBarPunish = false
@@ -694,7 +694,7 @@ return {
                     hjapi.DzFrameShow(demoCache.bar_exp, show and (not isPeriod) and isBarExp)
                     hjapi.DzFrameShow(demoCache.bar_punish, show and isBarPunish)
                     if (lastTarget ~= nil) then
-                        hjapi.DzFrameSetTexture(demoCache.target_ava, data.target_ava)
+                        hjapi.DzFrameSetTexture(demoCache.target_ava, data.target_ava, 0)
                         hdzui.frameSetText(demoCache.target_tl, data.target_tl)
                         hdzui.frameSetText(demoCache.target_tr, data.target_tr)
                         local cur = data.target_val * target_width
@@ -710,12 +710,12 @@ return {
                         demoCache.target_val_prev = next
                         hdzui.frameSize(demoCache.target_val2, next, 0)
                         if (data.target_val1 ~= nil) then
-                            hjapi.DzFrameSetTexture(demoCache.target_val1, targetHPColors[data.target_val1])
+                            hjapi.DzFrameSetTexture(demoCache.target_val1, targetHPColors[data.target_val1], 0)
                         end
                         if (data.target_pv > 0) then
                             hdzui.frameSize(demoCache.target_pv, data.target_pv, 0)
                         end
-                        hjapi.DzFrameSetTexture(demoCache.target_val2, targetHPColors[data.target_val2])
+                        hjapi.DzFrameSetTexture(demoCache.target_val2, targetHPColors[data.target_val2], 0)
                         hjapi.DzFrameShow(demoCache.target, true)
                         hjapi.DzFrameShow(demoCache.target_ava, true)
                         hjapi.DzFrameShow(demoCache.target_tl, true)
@@ -737,6 +737,51 @@ return {
                     end
                 end
             end)
+            --SORT
+            local sort = {}
+            hplayer.forEach(function(enumPlayer, idx)
+                local s = { idx = idx, name = hplayer.getName(enumPlayer), playing = his.playing(enumPlayer) }
+                s.val = hplayer.getDamage(enumPlayer)
+                table.insert(sort, s)
+            end)
+            table.sort(sort, function(a, b)
+                if (a.val == b.val) then
+                    return b.idx > a.idx
+                end
+                return a.val > b.val
+            end)
+            for di, d in ipairs(sort) do
+                local tt
+                local vx
+                local w = 0.13 - di * 0.006
+                local val = math.numberFormat(d.val, 3)
+                if (di == 1) then
+                    tt = "hLua\\ui\\sort_red0.tga"
+                    vx = -0.04
+                    w = 0.16
+                else
+                    if (di % 2 == 0) then
+                        tt = "hLua\\ui\\sort_orangeN.tga"
+                    else
+                        tt = "hLua\\ui\\sort_redN.tga"
+                    end
+                    if (d.val < 1) then
+                        w = 0.07
+                        val = 0
+                    end
+                    vx = -(w / 3.9)
+                end
+                local nt = d.name
+                if (d.playing == false) then
+                    nt = "[离线]" .. nt
+                end
+                hdzui.frameSize(demoCache.sort.bar[di], w, 0.04)
+                hjapi.DzFrameSetTexture(demoCache.sort.bar[di], tt, 0)
+                hdzui.framePoint(demoCache.sort.bar[di], demoCache.game, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, 0, -0.02 - 0.018 * di)
+                hdzui.frameSetText(demoCache.sort.name[di], nt)
+                hdzui.frameSetText(demoCache.sort.val[di], val)
+                hdzui.framePoint(demoCache.sort.val[di], demoCache.sort.bar[di], FRAME_ALIGN_RIGHT, FRAME_ALIGN_RIGHT, vx, -0.001)
+            end
         end
         -- 上方目标血条
         demoCache.target = hdzui.frameTag("BACKDROP", "bg_bar_target", demoCache.game)
@@ -752,13 +797,23 @@ return {
         hdzui.frameSize(demoCache.target_val2, target_width, 0.023)
         hdzui.framePoint(demoCache.target_val2, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.0236, 0)
         demoCache.target_pv = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.main)
-        hjapi.DzFrameSetTexture(demoCache.target_pv, "hLua\\ui\\bar_yellow.tga", false)
+        hjapi.DzFrameSetTexture(demoCache.target_pv, "hLua\\ui\\bar_yellow.tga", 0)
         hdzui.frameSize(demoCache.target_pv, target_width, 0.002)
         hdzui.framePoint(demoCache.target_pv, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.0236, -0.017)
         demoCache.target_tl = hdzui.frameTag("TEXT", "txt_12l", demoCache.game)
         hdzui.framePoint(demoCache.target_tl, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.025, 0)
         demoCache.target_tr = hdzui.frameTag("TEXT", "txt_12r", demoCache.game)
         hdzui.framePoint(demoCache.target_tr, demoCache.target, FRAME_ALIGN_RIGHT, FRAME_ALIGN_RIGHT, -0.006, 0)
+        -- SORT
+        demoCache.sort = { bar = {}, name = {}, val = {} }
+        hplayer.forEach(function(_, idx)
+            demoCache.sort.bar[idx] = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.game)
+            hdzui.frameSize(demoCache.sort.bar[idx], 0.08, 0.02)
+            demoCache.sort.name[idx] = hdzui.frameTag("TEXT", "txt_8l", demoCache.game)
+            hdzui.framePoint(demoCache.sort.name[idx], demoCache.sort.bar[idx], FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.003, -0.001)
+            demoCache.sort.val[idx] = hdzui.frameTag("TEXT", "txt_8l", demoCache.game)
+            hdzui.framePoint(demoCache.sort.val[idx], demoCache.sort.bar[idx], FRAME_ALIGN_RIGHT, FRAME_ALIGN_RIGHT, -0.003, -0.001)
+        end)
         -- 黄金
         demoCache.gold = hdzui.frameTag("TEXT", "txt_12l", demoCache.main)
         hdzui.framePoint(demoCache.gold, demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, px.resource.x + 0.02, px.resource.y - 0.010)
