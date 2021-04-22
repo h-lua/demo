@@ -106,8 +106,8 @@ return {
             { "F12", "F12 消息" },
         }
         for i, t in ipairs(txt) do
-            demoCache[t[1]] = hdzui.frameTag("TEXT", "txt_10l", demoCache.game)
-            hdzui.framePoint(demoCache[t[1]], demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.item[2].x + 0.05, px.item[2].y - (i - 1) * 0.016)
+            demoCache[t[1]] = hdzui.frameTag("TEXT", "txt_8l", demoCache.game)
+            hdzui.framePoint(demoCache[t[1]], demoCache.main, FRAME_ALIGN_LEFT_TOP, FRAME_ALIGN_LEFT_TOP, px.item[2].x + 0.05, px.item[2].y - 0.016 - i * 0.012)
             hdzui.frameSetText(demoCache[t[1]], t[2])
         end
         --- 系统消息框
@@ -316,7 +316,7 @@ return {
                             data.attack = attrBuilder(
                                 "攻击", "无", not his.canAttack(selection),
                                 { "attack_white", "attack_green" }, true,
-                                math.integerFormat(attr.attack_sides[1]) .. "-" .. math.integerFormat(attr.attack_sides[2]), "")
+                                math.numberFormat(attr.attack_sides[1], 2) .. "-" .. math.numberFormat(attr.attack_sides[2], 2), "")
                             data.attack_speed = attrBuilder(
                                 "攻速", "无", not his.canAttack(selection),
                                 { "attack_speed" }, true,
@@ -559,13 +559,19 @@ return {
                                     if (tr > 1) then
                                         data.target_tr = "X " .. tr
                                         if (data.target_val2 == 0) then
+                                            data.target_val2 = #targetHPColors
+                                        end
+                                        data.target_val1 = data.target_val2 - 1
+                                        if (data.target_val1 == 0) then
                                             data.target_val1 = #targetHPColors
-                                        else
-                                            data.target_val1 = data.target_val2 - 1
                                         end
                                     end
                                 end
-                                data.target_val = (cl % HPUnit) / HPUnit
+                                if (cl >= ml and (cl % HPUnit) == 0) then
+                                    data.target_val = 1
+                                else
+                                    data.target_val = (cl % HPUnit) / HPUnit
+                                end
                                 if (hunit.isPunishing(lastTarget)) then
                                     data.target_pv = target_width * hattribute.get(lastTarget, "punish_current") / hattribute.get(lastTarget, "punish")
                                 else
@@ -699,7 +705,7 @@ return {
                         hdzui.frameSetText(demoCache.target_tr, data.target_tr)
                         local cur = data.target_val * target_width
                         local next = cur
-                        local step = target_width / 100
+                        local step = target_width / 10
                         if (demoCache.target_val_prev ~= nil) then
                             if (cur < demoCache.target_val_prev and (demoCache.target_val_prev - cur) > step) then
                                 next = demoCache.target_val_prev - step
@@ -737,51 +743,6 @@ return {
                     end
                 end
             end)
-            --SORT
-            local sort = {}
-            hplayer.forEach(function(enumPlayer, idx)
-                local s = { idx = idx, name = hplayer.getName(enumPlayer), playing = his.playing(enumPlayer) }
-                s.val = hplayer.getDamage(enumPlayer)
-                table.insert(sort, s)
-            end)
-            table.sort(sort, function(a, b)
-                if (a.val == b.val) then
-                    return b.idx > a.idx
-                end
-                return a.val > b.val
-            end)
-            for di, d in ipairs(sort) do
-                local tt
-                local vx
-                local w = 0.13 - di * 0.006
-                local val = math.numberFormat(d.val, 3)
-                if (di == 1) then
-                    tt = "hLua\\ui\\sort_red0.tga"
-                    vx = -0.04
-                    w = 0.16
-                else
-                    if (di % 2 == 0) then
-                        tt = "hLua\\ui\\sort_orangeN.tga"
-                    else
-                        tt = "hLua\\ui\\sort_redN.tga"
-                    end
-                    if (d.val < 1) then
-                        w = 0.07
-                        val = 0
-                    end
-                    vx = -(w / 3.9)
-                end
-                local nt = d.name
-                if (d.playing == false) then
-                    nt = "[离线]" .. nt
-                end
-                hdzui.frameSize(demoCache.sort.bar[di], w, 0.04)
-                hjapi.DzFrameSetTexture(demoCache.sort.bar[di], tt, 0)
-                hdzui.framePoint(demoCache.sort.bar[di], demoCache.game, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, 0, -0.02 - 0.018 * di)
-                hdzui.frameSetText(demoCache.sort.name[di], nt)
-                hdzui.frameSetText(demoCache.sort.val[di], val)
-                hdzui.framePoint(demoCache.sort.val[di], demoCache.sort.bar[di], FRAME_ALIGN_RIGHT, FRAME_ALIGN_RIGHT, vx, -0.001)
-            end
         end
         -- 上方目标血条
         demoCache.target = hdzui.frameTag("BACKDROP", "bg_bar_target", demoCache.game)
@@ -804,16 +765,6 @@ return {
         hdzui.framePoint(demoCache.target_tl, demoCache.target, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.025, 0)
         demoCache.target_tr = hdzui.frameTag("TEXT", "txt_12r", demoCache.game)
         hdzui.framePoint(demoCache.target_tr, demoCache.target, FRAME_ALIGN_RIGHT, FRAME_ALIGN_RIGHT, -0.006, 0)
-        -- SORT
-        demoCache.sort = { bar = {}, name = {}, val = {} }
-        hplayer.forEach(function(_, idx)
-            demoCache.sort.bar[idx] = hdzui.frameTag("BACKDROP", "bg_bar", demoCache.game)
-            hdzui.frameSize(demoCache.sort.bar[idx], 0.08, 0.02)
-            demoCache.sort.name[idx] = hdzui.frameTag("TEXT", "txt_8l", demoCache.game)
-            hdzui.framePoint(demoCache.sort.name[idx], demoCache.sort.bar[idx], FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT, 0.003, -0.001)
-            demoCache.sort.val[idx] = hdzui.frameTag("TEXT", "txt_8l", demoCache.game)
-            hdzui.framePoint(demoCache.sort.val[idx], demoCache.sort.bar[idx], FRAME_ALIGN_RIGHT, FRAME_ALIGN_RIGHT, -0.003, -0.001)
-        end)
         -- 黄金
         demoCache.gold = hdzui.frameTag("TEXT", "txt_12l", demoCache.main)
         hdzui.framePoint(demoCache.gold, demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_LEFT_TOP, px.resource.x + 0.02, px.resource.y - 0.010)
