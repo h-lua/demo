@@ -996,8 +996,8 @@ return {
             hdzui.frameSize(demoCache[bk], 0.010, 0.012)
             hplayer.forEach(function(enumPlayer, idx)
                 cj.SaveInteger(cg.hLuaDemoHash, demoCache[bk], idx, i)
-                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_ENTER, enumPlayer, "hLuaDemoMoreEnter")
-                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_LEAVE, enumPlayer, "hLuaDemoMoreLeave")
+                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_ENTER, "hLuaDemoMoreEnter", enumPlayer)
+                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_LEAVE, "hLuaDemoMoreLeave", enumPlayer)
             end)
         end
         -- UI展示
