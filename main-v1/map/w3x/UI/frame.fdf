@@ -48,39 +48,10 @@ Frame "TEXT" "txt_76c" INHERITS "txt" {
     FontJustificationH JUSTIFYCENTER,
 }
 
-Frame "BACKDROP" "main" {
-    BackdropBackground "hLua\ui\main_orc.tga",
+Frame "BACKDROP" "bg" {
     BackdropBlendAll,
 }
-Frame "BACKDROP" "bg_block" {
-    BackdropBackground "hLua\ui\block_orc.tga",
-    BackdropBlendAll,
-}
-Frame "BACKDROP" "bg_info_attr" {
-    BackdropBackground "hLua\ui\info_attr.tga",
-    BackdropBlendAll,
-}
-Frame "BACKDROP" "bg_info_attr_hero" {
-    BackdropBackground "hLua\ui\info_attr_hero.tga",
-    BackdropBlendAll,
-}
-Frame "BACKDROP" "bg_sign_str" {
-    BackdropBackground "hLua\ui\sign_str.tga",
-    BackdropBlendAll,
-}
-Frame "BACKDROP" "bg_sign_agi" {
-    BackdropBackground "hLua\ui\sign_agi.tga",
-    BackdropBlendAll,
-}
-Frame "BACKDROP" "bg_sign_int" {
-    BackdropBackground "hLua\ui\sign_int.tga",
-    BackdropBlendAll,
-}
-Frame "BACKDROP" "bg_sign_nor" {
-    BackdropBackground "hLua\ui\sign_nor.tga",
-    BackdropBlendAll,
-}
-Frame "BACKDROP" "bg_bar" {
+Frame "BACKDROP" "bg_tile" {
     BackdropTileBackground,
     BackdropBlendAll,
 }
@@ -91,10 +62,6 @@ Frame "BACKDROP" "bg_bar_target" {
     BackdropCornerSize 0.012,
     BackdropBackgroundSize 0.032,
     BackdropEdgeFile "UI\Widgets\BattleNet\bnet-inputbox-border.blp",
-    BackdropBlendAll,
-}
-Frame "BACKDROP" "bg_bar_avatar" {
-    BackdropTileBackground,
     BackdropBlendAll,
 }
 Frame "BACKDROP" "bg_tooltip" {
