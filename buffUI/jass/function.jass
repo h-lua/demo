@@ -1,0 +1,12 @@
+
+// 可在此文件定义全局函数
+function expOn takes nothing returns nothing
+    local integer triggerFrame = DzGetTriggerUIEventFrame()
+    call DzFrameSetPoint(DzFrameFindByName("background",0), 8, triggerFrame, 1, 0, 0)
+    call DzFrameSetText(DzFrameFindByName("backgroundText_1",0),LoadStr(txtUI, triggerFrame, 1))
+    call DzFrameShow(expTxt, true)
+endfunction
+
+function expOff takes nothing returns nothing
+    call DzFrameShow(expTxt, false)
+endfunction
