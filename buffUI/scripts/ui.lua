@@ -103,35 +103,40 @@ hdzui.wideScreen()
                             end)
 
                             if (show) then
-                                for idx, v in ipairs(sort) do
-                                    if (idx < SINGLUAR_UI_ABILITY_MAX) then
-                                        showIdx[idx] = true
-                                        local time = buffTab[v.key].times
-                                        local bi = buffTab[v.key].num
-                                        local icon = BUFF_DISPLAY_KEYS[bi].icon
-                                        local name = BUFF_DISPLAY_KEYS[bi].name
-                                        local t = math.round(htime.getRemainTime(time),1)
-                                        local difference = 0
-                                        hjapi.DzFrameSetText(SLBuffTxt[idx],t)
-                                        hjapi.DzFrameSetTexture(SLBuffExts[idx],icon,false)
-                                        if (buffTab[v.key].symbol == "+") then
-                                            hjapi.DzFrameSetTexture(SLBuffBorders[idx],"buffIcon\\up.tga",false)
-                                            difference = hcolor.green(buffTab[v.key].symbol .. buffTab[v.key].difference)
-                                        else
-                                            hjapi.DzFrameSetTexture(SLBuffBorders[idx],"buffIcon\\down.tga",false)
-                                            difference = hcolor.red(buffTab[v.key].difference)
-                                        end
-                                        local txtUi = name .. ":" .. difference .. "|n" .. hcolor.greenLight("持续:" .. t .. "秒")
-                                        cj.SaveStr(cg.txtUI,SLBuffBtns[idx],1,txtUi)
-                                        if (t <= 3) then
-                                            local transparency = 50 + 255 * t / 3
-                                            hjapi.DzFrameSetAlpha(SLBuffTxt[idx],transparency)
-                                            hjapi.DzFrameSetAlpha(SLBuffExts[idx],transparency)
-                                            hjapi.DzFrameSetAlpha(SLBuffBorders[idx],transparency)
-                                        else
-                                            hjapi.DzFrameSetAlpha(SLBuffTxt[idx],255)
-                                            hjapi.DzFrameSetAlpha(SLBuffExts[idx],255)
-                                            hjapi.DzFrameSetAlpha(SLBuffBorders[idx],255)
+                                    for idxs, v in ipairs(sort) do
+                                        if (idxs < SINGLUAR_UI_ABILITY_MAX) then
+                                            showIdx[idxs] = true
+                                            local time = buffTab[v.key].times
+                                            local bi = buffTab[v.key].num
+                                            local icon = BUFF_DISPLAY_KEYS[bi].icon
+                                            local name = BUFF_DISPLAY_KEYS[bi].name
+                                            local t = math.round(htime.getRemainTime(time), 1)
+                                            local difference = 0
+                                            local icoTga = ""
+                                            if (buffTab[v.key].symbol == "+") then
+                                                icoTga = "buffIcon\\up.tga"
+                                                difference = hcolor.green(buffTab[v.key].symbol .. buffTab[v.key].difference)
+                                            else
+                                                icoTga = "buffIcon\\down.tga"
+                                                difference = hcolor.red(buffTab[v.key].difference)
+                                            end
+                                            local txtUi = name .. ":" .. difference .. "|n" .. hcolor.greenLight("持续:" .. t .. "秒")
+                                            game.textRecord[idx][SLBuffBtns[idxs]] = txtUi
+                                            if (enumPlayer == hplayer.loc()) then
+                                                hjapi.DzFrameSetTexture(SLBuffBorders[idxs], icoTga, false)
+                                                hjapi.DzFrameSetText(SLBuffTxt[idxs], t)
+                                                hjapi.DzFrameSetTexture(SLBuffExts[idxs], icon, false)
+                                                if (t <= 3) then
+                                                    local transparency = 50 + 255 * t / 3
+                                                    hjapi.DzFrameSetAlpha(SLBuffTxt[idxs], transparency)
+                                                    hjapi.DzFrameSetAlpha(SLBuffExts[idxs], transparency)
+                                                    hjapi.DzFrameSetAlpha(SLBuffBorders[idxs], transparency)
+                                                else
+                                                    hjapi.DzFrameSetAlpha(SLBuffTxt[idxs], 255)
+                                                    hjapi.DzFrameSetAlpha(SLBuffExts[idxs], 255)
+                                                    hjapi.DzFrameSetAlpha(SLBuffBorders[idxs], 255)
+                                                end
+                                            end
                                         end
                                     end
                                 end
