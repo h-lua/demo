@@ -74,28 +74,32 @@ hdzui.wideScreen()
                             show = true
                             local buffTab = {}
                             local sort = {}
-                            for bi, b in ipairs(CONST_ATTR_KEYS) do
-                                local keys = nil
-                                local symbol = ""
-                                if (buffHandle["attr." .. b .. "+"] ~= nil) then
-                                    keys = "attr." .. b .. "+"
-                                    symbol = "+"
-                                end
-                                if (buffHandle["attr." .. b .. "-"] ~= nil) then
-                                    keys = "attr." .. b .. "-"
-                                    symbol = "-"
-                                end
-                                --
-                                if (keys ~= nil) then
-                                    for _, buffKey in ipairs(buffHandle[keys]._idx) do
-                                        buffHandle[keys][buffKey].num = bi
-                                        buffHandle[keys][buffKey].symbol = symbol
-                                        buffTab[buffKey] = buffHandle[keys][buffKey]
-                                        local s = {key = buffKey}
-                                        table.insert(sort,s)
+                          for bi, b in ipairs(CONST_ATTR_KEYS) do
+                                    local keys = ""
+                                    local symbol = ""
+                                    if (buffHandle["attr." .. b .. "+"] ~= nil) then
+                                        keys = "attr." .. b .. "+"
+                                        symbol = "+"
+                                        for _, buffKey in ipairs(buffHandle[keys]._idx) do
+                                            buffHandle[keys][buffKey].num = bi
+                                            buffHandle[keys][buffKey].symbol = symbol
+                                            buffTab[buffKey] = buffHandle[keys][buffKey]
+                                            local s = { key = buffKey }
+                                            table.insert(sort, s)
+                                        end
+                                    end
+                                    if (buffHandle["attr." .. b .. "-"] ~= nil) then
+                                        keys = "attr." .. b .. "-"
+                                        symbol = "-"
+                                        for _, buffKey in ipairs(buffHandle[keys]._idx) do
+                                            buffHandle[keys][buffKey].num = bi
+                                            buffHandle[keys][buffKey].symbol = symbol
+                                            buffTab[buffKey] = buffHandle[keys][buffKey]
+                                            local s = { key = buffKey }
+                                            table.insert(sort, s)
+                                        end
                                     end
                                 end
-                            end
                             ----
                             --排序
                             table.sort(sort,function(a, b)
