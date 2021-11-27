@@ -1,4 +1,0 @@
-
-hashtable hLuaDemoHash = InitHashtable()
-integer hLuaDemoMoreTip = 0
-integer hLuaDemoMoreTxt = 0

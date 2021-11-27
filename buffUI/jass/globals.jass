@@ -1,5 +1,0 @@
-
-// 可在此文件定义全局变量
-integer HLuaExampleInteger = 0
-hashtable txtUI = InitHashtable()
-integer expTxt = 0

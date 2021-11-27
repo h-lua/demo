@@ -1,7 +1,12 @@
-# h-lua-ui-demo
-一些适用于h-lua-sdk项目的UI demo
+# h-lua-sdk-demo
 
-### 必须使用 h-lua-sdk 进行地图构建与测试
+一些适用于h-lua-sdk框架的 demo 集合
+
+> 如希望加入，请加群325338043，并向作者提供github账号进行邀请获得写入权限
+> 
+> 你也可以选择PR进行补充，提供你的贡献
+
+### 编写建议
 ```
 git clone https://github.com/hunzsig-warcraft3/h-lua-sdk.git
 ```
