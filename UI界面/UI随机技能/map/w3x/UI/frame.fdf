@@ -1,0 +1,187 @@
+﻿
+Frame "FRAME" "awar"{
+    Width 0.400,
+    Height 0.258,
+    LayerStyle "IGNORETRACKEVENTS",
+    Frame "BACKDROP" "awarbakc" {
+    Width 0.400,
+    Height 0.258,
+    BackdropBackground  "war3mapImported\awarTB.blp",
+    BackdropBlendAll,
+    SetPoint TOPLEFT, "awar", TOPLEFT, 0, 0,
+        Frame "BUTTON" "awar_1" {
+            Height 0.213,
+            Width 0.125,
+            ControlStyle "AUTOTRACK|HIGHLIGHTONMOUSEOVER",
+            SetPoint LEFT, "awar", LEFT , 0.010, 0,
+
+            //背景
+            ControlBackdrop "awara",
+            Frame "BACKDROP" "awara" {
+                BackdropBackground  "war3mapImported\awarAND.blp",
+                BackdropBlendAll,
+            }
+            //按下
+            ControlPushedBackdrop "awaraa",
+            Frame "BACKDROP" "awaraa" {
+                BackdropBackground  "war3mapImported\awarANX.blp",
+                BackdropBlendAll,
+            }
+            //高亮
+            ControlMouseOverHighlight "awarga",
+            Frame "HIGHLIGHT" "awarga" {
+                HighlightType "FILETEXTURE",
+                HighlightAlphaFile "UI\Widgets\BattleNet\bnet-button01-highlight-mouse.blp",
+                HighlightAlphaMode "ADD",
+            }
+            Frame "BACKDROP" "awar_jn_1" {
+
+                Width 0.034,
+                Height 0.042,
+                BackdropBackground  "ReplaceableTextures\PassiveButtons\PASBTNScatterRockets.blp",
+                BackdropBlendAll,
+                SetPoint TOPLEFT, "awar_1", TOPLEFT, 0.040, -0.040,
+                }
+            Frame "TEXT" "awar_jnname_1" {
+                Width 0.12,
+                Height 0.1,
+                DecorateFileNames,
+                FrameFont "MasterFont", 0.015, "",
+                FontJustificationH JUSTIFYCENTER,
+                UseActiveContext,
+                FontJustificationV JUSTIFYMIDDLE,
+                LayerStyle "IGNORETRACKEVENTS",
+                SetPoint CENTER, "awar_jn_1", CENTER, 0, -0.035,
+                Text "弹幕攻击",
+            }
+            Frame "TEXT" "awar_jnsm_1" {
+                Width 0.080,
+                Height 0.1,
+                DecorateFileNames,
+                FrameFont "MasterFont", 0.01, "",
+                FontJustificationH JUSTIFYCENTER,
+                UseActiveContext,
+                FontJustificationV JUSTIFYMIDDLE,
+                LayerStyle "IGNORETRACKEVENTS",
+                SetPoint CENTER, "awar_jnname_1", CENTER, 0, -0.035,
+                Text "对周围的敌方空中单位进行强有力的弹幕攻击",
+            }
+        }
+        Frame "BUTTON" "awar_2" {
+            Height 0.213,
+            Width 0.125,
+            ControlStyle "AUTOTRACK|HIGHLIGHTONMOUSEOVER",
+            SetPoint LEFT, "awar_1", RIGHT , 0, 0,
+
+            //背景
+            ControlBackdrop "awarb",
+            Frame "BACKDROP" "awarb" {
+                BackdropBackground  "war3mapImported\awarAND.blp",
+                BackdropBlendAll,
+            }
+            //按下
+            ControlPushedBackdrop "awarab",
+            Frame "BACKDROP" "awarab" {
+                BackdropBackground  "war3mapImported\awarANX.blp",
+                BackdropBlendAll,
+            }
+            //高亮
+            ControlMouseOverHighlight "awargb",
+            Frame "HIGHLIGHT" "awargb" {
+                HighlightType "FILETEXTURE",
+                HighlightAlphaFile "UI\Widgets\BattleNet\bnet-button01-highlight-mouse.blp",
+                HighlightAlphaMode "ADD",
+            }
+            Frame "BACKDROP" "awar_jn_2" {
+
+                Width 0.034,
+                Height 0.042,
+                BackdropBackground  "ReplaceableTextures\PassiveButtons\PASBTNScatterRockets.blp",
+                BackdropBlendAll,
+                SetPoint TOPLEFT, "awar_2", TOPLEFT, 0.040, -0.040,
+                }
+            Frame "TEXT" "awar_jnname_2" {
+                Width 0.12,
+                Height 0.1,
+                DecorateFileNames,
+                FrameFont "MasterFont", 0.015, "",
+                FontJustificationH JUSTIFYCENTER,
+                UseActiveContext,
+                FontJustificationV JUSTIFYMIDDLE,
+                LayerStyle "IGNORETRACKEVENTS",
+                SetPoint CENTER, "awar_jn_2", CENTER, 0, -0.035,
+                Text "弹幕攻击",
+            }
+            Frame "TEXT" "awar_jnsm_2" {
+                Width 0.080,
+                Height 0.1,
+                DecorateFileNames,
+                FrameFont "MasterFont", 0.01, "",
+                FontJustificationH JUSTIFYCENTER,
+                UseActiveContext,
+                FontJustificationV JUSTIFYMIDDLE,
+                LayerStyle "IGNORETRACKEVENTS",
+                SetPoint CENTER, "awar_jnname_2", CENTER, 0, -0.035,
+                Text "对周围的敌方空中单位进行强有力的弹幕攻击",
+            }
+        }
+        Frame "BUTTON" "awar_3" {
+            Height 0.213,
+            Width 0.125,
+            ControlStyle "AUTOTRACK|HIGHLIGHTONMOUSEOVER",
+            SetPoint LEFT, "awar_2", RIGHT , 0, 0,
+
+            //背景
+            ControlBackdrop "awarc",
+            Frame "BACKDROP" "awarc" {
+                BackdropBackground  "war3mapImported\awarAND.blp",
+                BackdropBlendAll,
+            }
+            //按下
+            ControlPushedBackdrop "awarac",
+            Frame "BACKDROP" "awarac" {
+                BackdropBackground  "war3mapImported\awarANX.blp",
+                BackdropBlendAll,
+            }
+            //高亮
+            ControlMouseOverHighlight "awargc",
+            Frame "HIGHLIGHT" "awargc" {
+                HighlightType "FILETEXTURE",
+                HighlightAlphaFile "UI\Widgets\BattleNet\bnet-button01-highlight-mouse.blp",
+                HighlightAlphaMode "ADD",
+            }
+            Frame "BACKDROP" "awar_jn_3" {
+
+                Width 0.034,
+                Height 0.042,
+                BackdropBackground  "ReplaceableTextures\PassiveButtons\PASBTNScatterRockets.blp",
+                BackdropBlendAll,
+                SetPoint TOPLEFT, "awar_3", TOPLEFT, 0.040, -0.040,
+                }
+            Frame "TEXT" "awar_jnname_3" {
+                Width 0.12,
+                Height 0.1,
+                DecorateFileNames,
+                FrameFont "MasterFont", 0.015, "",
+                FontJustificationH JUSTIFYCENTER,
+                UseActiveContext,
+                FontJustificationV JUSTIFYMIDDLE,
+                LayerStyle "IGNORETRACKEVENTS",
+                SetPoint CENTER, "awar_jn_3", CENTER, 0, -0.035,
+                Text "弹幕攻击",
+            }
+            Frame "TEXT" "awar_jnsm_3" {
+                Width 0.080,
+                Height 0.1,
+                DecorateFileNames,
+                FrameFont "MasterFont", 0.01, "",
+                FontJustificationH JUSTIFYCENTER,
+                UseActiveContext,
+                FontJustificationV JUSTIFYMIDDLE,
+                LayerStyle "IGNORETRACKEVENTS",
+                SetPoint CENTER, "awar_jnname_3", CENTER, 0, -0.035,
+                Text "对周围的敌方空中单位进行强有力的弹幕攻击",
+            }
+        }
+    }
+}
