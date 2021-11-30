@@ -4,6 +4,35 @@ hdzui.wideScreen()
 UI = function()
     hdzui.loadToc("UI\\frame.toc")
 
+    local playerTxt = {}
+    playerTxt[hplayer.index(hplayer.players[1])] = {}
+    hplayer.forEach(function(enumPlayer, idx)
+        if (his.playing(enumPlayer)) then
+            playerTxt[idx] = {}
+        end
+    end)
+
+    local tip = {}
+    tip[1] = hdzui.frameTag("BACKDROP", "exp_kk", hdzui.origin.game())
+
+    tip[2] = hdzui.frameTag("TEXT", "txt_10l", tip[1])
+    hjapi.DzFrameSetSize(tip[2], 0.16, 0)
+    hjapi.DzFrameSetPoint(tip[1], 0, tip[2], 0, -0.005, 0.005)
+    hjapi.DzFrameSetPoint(tip[1], 8, tip[2], 8, 0.005, -0.005)
+    --hdzui.framePoint(tip[2], demoCache.itemSlot[1], FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_LEFT_TOP, -0.002, 0.02)
+    hjapi.DzFrameShow(tip[1], false)
+
+    local tipTxt = function()
+        local fm = hjapi.DzGetTriggerUIEventFrame()
+        local idx = hplayer.index(hjapi.DzGetTriggerUIEventPlayer())
+        hjapi.DzFrameSetText(tip[2], playerTxt[idx][fm])
+        hdzui.framePoint(tip[2], fm, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_RIGHT_TOP, -0.01, 0.01)
+        hjapi.DzFrameShow(tip[1], true)
+    end
+    local tipTxtNo = function()
+        hjapi.DzFrameShow(tip[1], false)
+    end
+
     SINGLUAR_UI_ABILITY_MAX = 11 * 2 --最大buff数,偶数
 
     local bagRx = 0.016
@@ -13,8 +42,6 @@ UI = function()
     local SLBuffTxt = {}
     local SLBuffExts = {}
     local SLBuffBorders = {}
-
-
 
     for i = 1, SINGLUAR_UI_ABILITY_MAX do
         local x = -0.084 + bagRx * (i - 1)
@@ -49,10 +76,14 @@ UI = function()
         hjapi.DzFrameSetPoint(SLBuffBtns[i], 4, SLBuffExts[i], 4, 0, 0)
         hjapi.DzFrameSetSize(SLBuffBtns[i], bagRx, bagRy)
         hjapi.DzFrameShow(SLBuffBtns[i], true)
+
+        --进入按钮动作
+
+        hdzui.onMouse(SLBuffBtns[i], 2, tipTxt)
+        hdzui.onMouse(SLBuffBtns[i], 3, tipTxtNo)
         --
 
     end
-
 
     htime.setInterval(0.1, function(_)
         hplayer.forEach(function(enumPlayer, idx)
@@ -106,7 +137,7 @@ UI = function()
                                     local bi = buffTab[v.key].num
                                     local icon = BUFF_DISPLAY_KEYS[bi].icon
                                     local name = BUFF_DISPLAY_KEYS[bi].name
-                                    local t = math.round(htime.getRemainTime(time), 1)
+                                    local t = math.round(time.remain(), 1)
                                     local difference = 0
                                     local icoTga = ""
                                     if (buffTab[v.key].symbol == "+") then
@@ -117,7 +148,7 @@ UI = function()
                                         difference = hcolor.red(buffTab[v.key].difference)
                                     end
                                     --提示框 需要，没做 自己弄
-                                    local txtUi = name .. ":" .. difference .. "|n" .. hcolor.greenLight("持续:" .. t .. "秒")
+                                    playerTxt[idx][SLBuffBtns[idxs]] = name .. ":" .. difference .. "|n" .. hcolor.greenLight("持续:" .. t .. "秒")
                                     if (enumPlayer == hplayer.loc()) then
                                         hjapi.DzFrameSetTexture(SLBuffBorders[idxs], icoTga, false)
                                         hjapi.DzFrameSetText(SLBuffTxt[idxs], t)
@@ -151,8 +182,8 @@ UI = function()
                     end
                 end
             end
+        end)
     end)
-end)
 
 
 end

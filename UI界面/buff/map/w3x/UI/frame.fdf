@@ -1,38 +1,15 @@
 ﻿
 //说明框
-Frame "FRAME" "explain"{
-    Width 0.200,
-    Height 0.100,
-    LayerStyle "IGNORETRACKEVENTS",
-    Frame "BACKDROP" "background" {
-        Width 0.080,
-        Height 0.040,
-
-        BackdropTileBackground,
-        BackdropBackground  "UI\Widgets\ToolTips\Human\human-tooltip-background.blp",
-        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
-        BackdropCornerSize  0.012,
-        BackdropBackgroundSize  0.032,
-        BackdropBackgroundInsets 0.004f 0.004f 0.004f 0.004f,
-        BackdropEdgeFile  "UI\Widgets\ToolTips\Human\human-tooltip-border.blp",
-        BackdropBlendAll,
-        //SetPoint CENTER, "explain", CENTER, 0, 0,
-
-                Frame "TEXT" "backgroundText_1" {
-                    Width 0.130,
-                    Height 0.1,
-                    DecorateFileNames,
-                    FrameFont "MasterFont", 0.012, "",
-                    FontJustificationH JUSTIFYCENTER,
-                    UseActiveContext,
-                    FontJustificationV JUSTIFYMIDDLE,
-                    LayerStyle "IGNORETRACKEVENTS",
-                    SetPoint CENTER, "background", CENTER, 0, 0,
-                    Text "弹幕攻击",
-                }
-    }
-
-}
+  Frame "BACKDROP" "exp_kk" {
+    BackdropTileBackground,
+    BackdropBackground "UI\Widgets\ToolTips\Human\human-tooltip-background.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize 0.012,
+    BackdropBackgroundSize 0.032,
+    BackdropBackgroundInsets 0.004f 0.004f 0.004f 0.004f,
+    BackdropEdgeFile "UI\Widgets\ToolTips\Human\human-tooltip-border.blp",
+    BackdropBlendAll,
+  }
 
 Frame "TEXT" "T666" {
     DecorateFileNames,

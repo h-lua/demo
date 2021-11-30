@@ -30,6 +30,7 @@ function main()
     })
     hattr.set(u,30,{attack = "+5"})
     hattr.set(u,20,{knocking_odds = "+50"})
+    hattr.set(u,15,{defend  = "-5"})
 
     selectedUnit = {}
     hplayer.forEach(function(enumPlayer, idx)

@@ -220,7 +220,7 @@ SETUP = function()
         sell_ratio = "buffIcon\\buff_sell_ratio.tga",
     }
     for _, k in ipairs(CONST_ATTR_KEYS) do
-        table.insert(BUFF_DISPLAY_KEYS, { name = CONST_ATTR[k], icon = BUFF_ICON[k] })
+        table.insert(BUFF_DISPLAY_KEYS, { name = CONST_ATTR_LABEL[k], icon = BUFF_ICON[k] })
     end
 
 end
