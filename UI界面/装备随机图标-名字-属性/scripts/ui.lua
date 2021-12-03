@@ -119,7 +119,9 @@ UI = function()
                             end
                         else
                             playerTxt[idx][f] = nil
-                            hjapi.DzFrameShow(demoCache.itemIco[i], false)
+                            if (enumPlayer == hplayer.loc()) then
+                                hjapi.DzFrameShow(demoCache.itemIco[i], false)
+                            end
                         end
                     end
 
