@@ -1,7 +1,3 @@
-# h-lua-sdk-demo
+# h-lua demo
 
-一些适用于h-lua-sdk框架的 demo 集合
-
-> 如希望加入，请加群325338043，并向作者提供github账号进行邀请获得写入权限
-> 
-> 你也可以选择PR进行补充，贡献你的智慧与能力
+适用于 h-lua 的 demo演示
