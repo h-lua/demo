@@ -84,8 +84,6 @@ hevent.onPickHero(function(evtPickData)
     local heroSlk = hslk.i2v(heroId)
     -- 镜头
     hcamera.toUnit(owner, 0, newHero)
-    -- 开启硬直
-    hunit.enablePunish(newHero)
     -- 初始属性
     hattr.set(newHero, 0, {
         reborn = "=5",
@@ -108,51 +106,12 @@ hevent.onPickHero(function(evtPickData)
     --- 升级
     hevent.onLevelUp(newHero, function(evtData)
         local primary = hhero.getPrimary(evtData.triggerUnit)
-        local punish = hhero.getCurLevel(evtData.triggerUnit)
-        if (primary == "STR") then
-            punish = punish + 70
-        elseif (primary == "AGI") then
-            punish = punish + 45
-        elseif (primary == "INT") then
-            punish = punish + 55
-        end
-        hattr.set(evtData.triggerUnit, 0, {
-            weight = "+0.5",
-            punish = "+" .. punish
-        })
+        print("primary", primary)
     end)
     --- 经验收获
     hevent.onDamage(newHero, function(evtData)
         local exp = math.floor(evtData.damage * 0.1)
         haward.forUnitExp(evtData.triggerUnit, exp)
-    end)
-    --- 检测环境音效
-    htime.setInterval(3.5, function(curTimer)
-        local p = hunit.getOwner(newHero)
-        if (his.deleted(newHero)) then
-            curTimer.destroy()
-            hsound.bgmStop(p)
-            return
-        end
-        if (his.dead(newHero)) then
-            return
-        end
-        local bgm = SOUND.bgm_main
-        for _, obj in ipairs(islands) do
-            if (his.inRect(obj.rect, hunit.x(newHero), hunit.y(newHero)) == true) then
-                if (obj.bgm == "nil") then
-                    bgm = nil
-                elseif (obj.bgm ~= nil) then
-                    bgm = obj.bgm
-                end
-                break
-            end
-        end
-        if (bgm == nil) then
-            hsound.bgmStop(p)
-        else
-            hsound.bgm(bgm, p)
-        end
     end)
     -- dz奖励
     local mapLv = hdzapi.mapLevel(owner)
@@ -176,30 +135,6 @@ hevent.onPickHero(function(evtPickData)
         whichUnit = newHero,
     })
 end)
-
-pickCourier = function(newCourier)
-    local owner = hunit.getOwner(newCourier)
-    local playerIndex = hplayer.index(owner)
-    if (game.playerData.courier[playerIndex] ~= nil) then
-        local prevCourier = game.playerData.courier[playerIndex]
-        hunit.hide(prevCourier)
-        hitem.copy(prevCourier, newCourier)
-        hunit.del(prevCourier)
-    end
-    game.playerData.courier[playerIndex] = newCourier
-    echo(hcolor.green(hplayer.getName(owner)) .. "得到了宠物" .. hcolor.yellow("<" .. hunit.getName(newCourier) .. ">"))
-    hevent.onDead(newCourier, function(evtData)
-        local courierId = hunit.getId(evtData.triggerUnit)
-        local nc = hunit.create({
-            whichPlayer = hplayer.players[playerIndex],
-            id = courierId,
-            x = hunit.x(evtData.triggerUnit),
-            y = hunit.y(evtData.triggerUnit),
-            facing = hunit.getFacing(evtData.triggerUnit),
-        })
-        pickCourier(nc)
-    end)
-end
 
 -- 映射属性
 hattr.setRelation({

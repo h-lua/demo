@@ -32,7 +32,6 @@ stage3 = function()
         if (killer ~= nil) then
             haward.forGroupExp(killer, exp)
         end
-        stage_fleeting(deadUnit, 32 + game.diff)
         stage4()
     end)
 
@@ -44,29 +43,18 @@ stage3 = function()
                 attack_white = "=" .. 51 + game.diff * 4,
                 life = "=" .. 96 + game.diff * 4,
                 move = "=90",
-                xtras = {
-                    add = {
-                        {
-                            on = CONST_EVENT.attack,
-                            action = "targetUnit.attr.life_back",
-                            odds = 50,
-                            val = -3.5 + game.diff * -0.3,
-                            during = 3
-                        }
-                    }
-                }
             },
             {
                 attack_white = "=" .. 47 + game.diff * 3,
                 life = "=" .. 114 + game.diff * 6,
                 move = "=95",
-                damage_reduction = "=10"
+                defend = "=10"
             },
             {
                 attack_white = "=" .. 38 + game.diff * 2,
                 life = "=" .. 105 + game.diff * 5,
                 move = "=93",
-                resistance = "=16"
+                defend = "=16"
             }
         }
         local mi = math.random(1, 3)

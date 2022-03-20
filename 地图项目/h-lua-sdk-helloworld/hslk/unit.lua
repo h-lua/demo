@@ -36,10 +36,6 @@ local heros = {
             attack_speed = "+5",
             life = "+1000",
             life_back = "+30",
-            weight = "+100",
-            -- 单位自身的暴击（自身的暴击可降低回避效果，伤害是在原伤害上加成，不独立计算）
-            knocking_odds = "+30",
-            knocking_extent = "+50",
         },
     },
     {
@@ -76,7 +72,7 @@ local heros = {
             attack_white = "+100",
             life = "+500000",
             life_back = "+3000",
-            damage_reduction = "+50",
+            defend = "+50",
         },
     },
 }
@@ -84,31 +80,4 @@ local heros = {
 for _, v in pairs(heros) do
     v.race = "human"
     hslk_hero(v)
-end
-
--- 信使
-local couriers = {
-    _unit({
-        Name = "冷静的绵羊",
-        Ubertip = "一只冷酷安静的绵羊，用毛茸茸的白毛携带物品",
-        unitSound = "Sheep",
-        file = "units\\critters\\Sheep\\Sheep",
-        Art = "ReplaceableTextures\\CommandButtons\\BTNSheep.blp",
-        modelScale = 1.50,
-        scale = 1.20,
-        moveHeight = 0,
-        targType = "ground",
-        armor = "Flesh",
-        HP = 500,
-        spd = 500,
-        _attr = {
-            weight = "+10000", -- 负重
-        },
-        fused = 10,
-    })
-}
-for _, v in ipairs(couriers) do
-    v.race = "human"
-    v.HP = 100
-    hslk_courier(v)
 end

@@ -9,8 +9,8 @@ SETUP = function()
     -- 设定敌军
     henemy.set("怪物", nil, { 2 }, false)
 
-    -- 调试自动去除迷雾
-    henv.setFogStatus(DEBUGGING == false, DEBUGGING == false)
+    cj.FogEnable(false)
+    cj.FogMaskEnable(false)
 
     --- 设定获得黄金木头特效
     hevent.onPlayerResourceChange(function(evtData)
@@ -33,36 +33,6 @@ SETUP = function()
             htextTag.model({ msg = "+" .. evtData.value .. " 经验", whichUnit = u, red = 50, green = 50, blue = 251 })
         end)
     end
-
-    -- 配置一个双火爆破附魔环境
-    henchant.enableAppend(true) -- 先启用附魔附着
-    henchant.setAppendAttachEffect('fire', {
-        { attach = 'origin', effect = 'Abilities\\Spells\\Other\\BreathOfFire\\BreathOfFireDamage.mdl' },
-        { attach = 'left hand', effect = 'Abilities\\Spells\\Other\\BreathOfFire\\BreathOfFireDamage.mdl' },
-        { attach = 'right hand', effect = 'Abilities\\Spells\\Other\\BreathOfFire\\BreathOfFireDamage.mdl' },
-        { attach = 'head', effect = 'Abilities\\Spells\\Other\\BreathOfFire\\BreathOfFireDamage.mdl' },
-    })
-    henchant.setEnvReaction('fire', 'water', function(evtData)
-        htextTag.model({ msg = "水爆 -" .. evtData.level, whichUnit = evtData.targetUnit, red = 0, green = 245, blue = 255 })
-        hunit.setRGBA(evtData.targetUnit, math.random(55, 255), 0, 0, nil, 0.5)
-        if (math.random(1, 10) == 5) then
-            hskill.damageRange({
-                radius = 100,
-                frequency = 0.25,
-                times = 3,
-                effectSingle = "Abilities\\Spells\\Other\\Monsoon\\MonsoonBoltTarget.mdl",
-                filter = function(filterUnit)
-                    return his.enemy(evtData.sourceUnit, filterUnit) and his.alive(filterUnit)
-                end,
-                x = hunit.x(evtData.targetUnit),
-                y = hunit.y(evtData.targetUnit),
-                damage = 666,
-                sourceUnit = evtData.sourceUnit,
-                damageSrc = CONST_DAMAGE_SRC.skill,
-                damageType = { CONST_DAMAGE_TYPE.thunder }
-            })
-        end
-    end)
 
     -- 映射属性
     hattribute.setRelation({

@@ -12,27 +12,6 @@ stage_ttg_sk = function(whichUnit, message)
     )
 end
 
-stage_fleeting = function(deadUnit, gold)
-    for _ = 1, (9 + game.diff + hplayer.qty_current) do
-        hitem.fleeting(
-            HL_ID.item_fleeting.gold,
-            hunit.x(deadUnit) + math.random(0, 200),
-            hunit.y(deadUnit) + math.random(0, 200),
-            30,
-            function(fleetingData)
-                if (his.deleted(fleetingData.centerUnit) == true) then
-                    return
-                end
-                local p = hunit.getOwner(fleetingData.enterUnit)
-                if (his.allyPlayer(fleetingData.enterUnit, game.ALLY_PLAYER) and his.playing(p) and his.computer(p) == false) then
-                    hunit.del(fleetingData.centerUnit)
-                    haward.forUnitGold(fleetingData.enterUnit, gold)
-                end
-            end
-        )
-    end
-end
-
 -- 技能hold on
 stage_holdOn = function()
     return 3.50 - game.diff * 0.05
@@ -69,7 +48,7 @@ stage_spell = function(whichUnit, message, cd, animate, ready, call)
         stage_ttg_sk(whichUnit, message)
         hunit.animate(whichUnit, animate)
         hattr.set(whichUnit, stage_holdOn(), {
-            damage_reduction = "+99999",
+            defend = "+99999",
             move = "-522"
         })
         htime.setTimeout(stage_holdOn(), function(curTimer)

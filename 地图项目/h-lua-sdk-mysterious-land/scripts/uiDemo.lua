@@ -176,7 +176,6 @@ return {
 
         -- 条:长度
         local bar_len = 0.074
-        local moreBtns = { "more_x_tras", "more_x_oppose", "more_e_attack", "more_e_append", "more_e_oppose" }
         -- 之后下面是自定义UI
         -- 每个周期都更新UI
         demoCache.update = function()
@@ -192,7 +191,6 @@ return {
                 local show = false
                 local isHero = false
                 local isPeriod = false
-                local isEnPunish = false
                 local isBarE1 = false
                 local isBarE2 = false
                 local isBarExp = false
@@ -218,12 +216,9 @@ return {
                             isAgi = (primary == "AGI")
                             isInt = (primary == "INT")
                             isPeriod = hunit.getPeriod(selection) > 0
-                            isEnPunish = his.enablePunish(selection)
                             isBarE1 = isPeriod or isHero
-                            isBarE2 = isEnPunish
                             isBarExp = isHero
                             isBarPeriod = isPeriod
-                            isBarPunish = isEnPunish
                             -- sign
                             if (primary == "STR") then
                                 data.sign = "hLua\\ui\\sign_str.tga"
@@ -258,10 +253,8 @@ return {
                             else
                                 data.mp = hcolor.red(mpc) .. "/" .. mpm
                             end
-                            -- 治疗加成
-                            local cure = 1 + 0.01 * (attr.cure or 0)
                             -- 生命恢复
-                            local life_back = math.round(attr.life_back * cure, 1)
+                            local life_back = math.round(attr.life_back, 1)
                             if (life_back > hattr.CURE_FLOOR) then
                                 data.life_back = hcolor.mixed("+" .. math.numberFormat(life_back, 1), "32CD32")
                             elseif (life_back < -hattr.CURE_FLOOR) then
@@ -270,7 +263,7 @@ return {
                                 data.life_back = "+0.00"
                             end
                             -- 魔法恢复
-                            local mana_back = math.round(attr.mana_back * cure, 1)
+                            local mana_back = math.round(attr.mana_back, 1)
                             if (mana_back > hattr.CURE_FLOOR) then
                                 data.mana_back = hcolor.mixed("+" .. math.numberFormat(mana_back, 1), "1E90FF")
                             elseif (mana_back < -hattr.CURE_FLOOR) then
@@ -339,23 +332,23 @@ return {
                             data.knocking_extent = attrBuilder(
                                 "暴击加成", "无", not can_attack,
                                 { "knocking_extent" }, true,
-                                math.round(attr.knocking_extent, 2), "%")
+                                0, "%")
                             data.knocking_odds = attrBuilder(
                                 "暴击几率", "无", not can_attack,
                                 { "knocking_odds" }, true,
-                                math.round(attr.knocking_odds, 2), "%")
+                                0, "%")
                             data.hemophagia = attrBuilder(
                                 "攻击吸血", "无", not can_attack,
                                 { "hemophagia" }, true,
-                                math.round(attr.hemophagia, 2), "%")
+                                0, "%")
                             data.hemophagia_skill = attrBuilder(
                                 "技能吸血", "无", false,
                                 { "hemophagia_skill" }, true,
-                                math.round(attr.hemophagia_skill, 2), "%")
+                                0, "%")
                             data.weight = attrBuilder(
                                 "负重", "无", false == his.hasSlot(selection),
                                 { "weight" }, true,
-                                math.floor(attr.weight_current) .. "/" .. math.floor(attr.weight), "Kg")
+                                0, "Kg")
                             data.move = attrBuilder(
                                 "移动", "无", false,
                                 { "move" }, true,
@@ -379,36 +372,36 @@ return {
                             end
                             data.damage_reduce = attrBuilder(
                                 "减伤", "无", false,
-                                { "damage_reduction", "damage_decrease" }, true,
-                                math.round(attr.damage_decrease, 2) .. "%+" .. math.floor(attr.damage_reduction), "")
+                                { "defend" }, true,
+                                data.defend, "")
                             data.cure = attrBuilder(
                                 "治疗加成", "无", false,
                                 { "cure" }, true,
-                                math.round(attr.cure, 2), "%")
+                                0, "%")
                             data.avoid = attrBuilder(
                                 "回避几率", "无", false,
                                 { "avoid" }, true,
-                                math.round(attr.avoid, 2), "%")
+                                0, "%")
                             data.aim = attrBuilder(
                                 "命中加成", "无", false,
                                 { "aim" }, true,
-                                math.round(attr.aim, 2), "%")
+                                0, "%")
                             data.damage_extent = attrBuilder(
                                 "伤害增幅", "无", false,
                                 { "damage_extent" }, true,
-                                math.round(attr.damage_extent, 2), "%")
+                                0, "%")
                             data.damage_rebound = attrBuilder(
                                 "反弹伤害", "无", false,
                                 { "damage_rebound" }, true,
-                                math.round(attr.damage_rebound, 2), "%")
+                                0, "%")
                             data.sight_day = attrBuilder(
                                 "白天视野", "无", false,
                                 { "sight" }, true,
-                                math.floor(attr.sight_day), "")
+                                math.floor(hunit.getSight(selection)), "")
                             data.sight_night = attrBuilder(
                                 "黑夜视野", "无", false,
                                 { "sight" }, true,
-                                math.floor(attr.sight_night), "")
+                                math.floor(hunit.getNSight(selection)), "")
                             if (isHero) then
                                 data.str = attrBuilder(
                                     hcolor.mixed("力量", "FFA99F"), "无", false,
@@ -435,33 +428,6 @@ return {
                                     {}, true,
                                     "+" .. hhero.getIntPlus(selection), "")
                             end
-                            local e_attack = 0
-                            local e_append = 0
-                            local e_oppose = 0
-                            for _, v in ipairs(CONST_ENCHANT) do
-                                if ((attr["e_" .. v.value .. "_attack"] or 0) > 0.1) then
-                                    e_attack = e_attack + 1
-                                end
-                                if ((attr["e_" .. v.value .. "_append"] or 0) > 0.1) then
-                                    e_append = e_append + 1
-                                end
-                                if ((attr["e_" .. v.value .. "_oppose"] or 0) > 0.1) then
-                                    e_oppose = e_oppose + 1
-                                end
-                            end
-                            data.e_attack = hcolor.mixed("附魔攻击", "D3B3FF") .. ":" .. e_attack .. "种"
-                            data.e_append = hcolor.mixed("附魔附着", "D3B3FF") .. ":"
-                            if (e_append > 0) then
-                                data.e_append = data.e_append .. hcolor.red(e_append .. "种")
-                            else
-                                data.e_append = data.e_append .. e_append .. "种"
-                            end
-                            data.e_oppose = hcolor.mixed("附魔抗性", "D3B3FF") .. ":"
-                            if (e_oppose > 0) then
-                                data.e_oppose = data.e_oppose .. hcolor.green(e_oppose .. "种")
-                            else
-                                data.e_oppose = data.e_oppose .. e_oppose .. "种"
-                            end
                             if (isPeriod) then
                                 local pr = hunit.getPeriodRemain(selection)
                                 local p = hunit.getPeriod(selection)
@@ -474,102 +440,6 @@ return {
                                 data.exp_bar = bar_len * e / en
                                 data.exp_val = "Lv" .. lv .. "   " .. math.min(e, en) .. "/" .. en
                             end
-                            if (isEnPunish) then
-                                data.punish_bar = bar_len * attr.punish_current / attr.punish
-                                data.punish_val = math.floor(math.max(0, attr.punish_current)) .. "/" .. math.floor(attr.punish)
-                            end
-                        end
-                        for i, _ in ipairs(moreBtns) do
-                            local s = {}
-                            local maxLen = 0
-                            local offsetLen = 0
-                            local sIn = function(st, sColor)
-                                maxLen = math.max(maxLen, string.mb_len(st))
-                                if (sColor) then
-                                    st = hcolor.mixed(st, sColor)
-                                end
-                                table.insert(s, st)
-                            end
-                            if (i == 1) then
-                                --more_x_tras
-                                local xtras = attr.xtras or {}
-                                if (#xtras > 0) then
-                                    offsetLen = -0.018
-                                    local xu = CONST_UBERTIP_ATTR_XTRAS(table.value(xtras, "_t"))
-                                    local mx = { str = {}, num = {} }
-                                    for _, xv in ipairs(xu) do
-                                        if (mx.num[xv] == nil) then
-                                            mx.num[xv] = 1
-                                            table.insert(mx.str, xv)
-                                        else
-                                            mx.num[xv] = mx.num[xv] + 1
-                                        end
-                                    end
-                                    for sti, str in ipairs(mx.str) do
-                                        local color
-                                        if (sti % 2 == 0) then
-                                            color = "efef8f"
-                                        end
-                                        local split = string.mb_split(str, 32)
-                                        for xvi, xvv in ipairs(split) do
-                                            if (xvi == 1) then
-                                                sIn(" - " .. "[" .. mx.num[str] .. "]" .. xvv, color)
-                                            else
-                                                sIn("     " .. xvv, color)
-                                            end
-                                        end
-                                    end
-                                else
-                                    offsetLen = 0.03
-                                    sIn("无特殊效果", "c0c0c0")
-                                end
-                            elseif (i == 2) then
-                                --more_x_oppose
-                                offsetLen = 0.01
-                                sIn("受伤无敌几率：" .. math.round(attr.invincible, 2) .. "%")
-                                sIn("反弹伤害抵抗：" .. math.round(attr.damage_rebound_oppose, 2) .. "%")
-                                sIn("攻击吸血抵抗：" .. math.round(attr.hemophagia_oppose, 2) .. "%")
-                                sIn("技能吸血抵抗：" .. math.round(attr.hemophagia_skill_oppose, 2) .. "%")
-                                sIn("强化阻碍：" .. math.round(attr.buff_oppose, 2) .. "%")
-                                sIn("负面抵抗：" .. math.round(attr.debuff_oppose, 2) .. "%")
-                                sIn("暴击抵抗：" .. math.round(attr.knocking_oppose, 2) .. "%")
-                                sIn("分裂抵抗：" .. math.round(attr.split_oppose, 2) .. "%")
-                                sIn("僵直抵抗：" .. math.round(attr.punish_oppose, 2) .. "%")
-                                sIn("眩晕抵抗：" .. math.round(attr.swim_oppose, 2) .. "%")
-                                sIn("打断抵抗：" .. math.round(attr.broken_oppose, 2) .. "%")
-                                sIn("沉默抵抗：" .. math.round(attr.silent_oppose, 2) .. "%")
-                                sIn("缴械抵抗：" .. math.round(attr.unarm_oppose, 2) .. "%")
-                                sIn("定身抵抗：" .. math.round(attr.fetter_oppose, 2) .. "%")
-                                sIn("爆破抵抗：" .. math.round(attr.bomb_oppose, 2) .. "%")
-                                sIn("闪电链抵抗：" .. math.round(attr.lightning_chain_oppose, 2) .. "%")
-                                sIn("击飞抵抗：" .. math.round(attr.crack_fly_oppose, 2) .. "%")
-                            elseif (i == 3) then
-                                --more_e_attack
-                                offsetLen = -0.01
-                                for _, v in ipairs(CONST_ENCHANT) do
-                                    sIn(v.label .. "攻击：" .. math.floor(attr["e_" .. v.value .. "_attack"]) .. "级，"
-                                        .. "伤害加成：" .. math.floor(attr["e_" .. v.value]) .. "%", v.color)
-                                end
-                            elseif (i == 4) then
-                                --more_e_append
-                                offsetLen = 0.02
-                                for _, v in ipairs(CONST_ENCHANT) do
-                                    sIn(v.label .. "附着：" .. math.floor(attr["e_" .. v.value .. "_append"]) .. "层", v.color)
-                                end
-                            elseif (i == 5) then
-                                --more_e_oppose
-                                offsetLen = 0.01
-                                for _, v in ipairs(CONST_ENCHANT) do
-                                    sIn(v.label .. "抗性：" .. math.round(attr["e_" .. v.value .. "_oppose"], 2) .. "%", v.color)
-                                end
-                            end
-                            local w = maxLen * 0.007 + offsetLen
-                            local h = #s * 0.010 + 0.025
-                            demoCache.tips[i] = {
-                                content = string.implode("|n", s),
-                                width = w,
-                                height = h,
-                            }
                         end
                     end
                     -- 目标数据
@@ -674,20 +544,6 @@ return {
                                 isBarExp = false
                             end
                         end
-                        if (isEnPunish) then
-                            if (his.punish(selection)) then
-                                hjapi.DzFrameSetText(demoCache.punish, hcolor.red("僵住"))
-                                hjapi.DzFrameSetText(demoCache.punish_val, hcolor.red(data.punish_val))
-                            else
-                                hjapi.DzFrameSetText(demoCache.punish, hcolor.mixed("硬直", "FFFF00"))
-                                hjapi.DzFrameSetText(demoCache.punish_val, hcolor.mixed(data.punish_val, "FFFF00"))
-                            end
-                            if (data.punish_bar > 0) then
-                                hjapi.DzFrameSetSize(demoCache.bar_punish, data.punish_bar, 0.002)
-                            else
-                                isBarPunish = false
-                            end
-                        end
                     end
                     for i, f in ipairs(demoCache.itemSlotBlock) do
                         hjapi.DzFrameShow(f, not (show and (cj.UnitItemInSlot(selection, i - 1) ~= nil)))
@@ -736,8 +592,8 @@ return {
                     hjapi.DzFrameShow(demoCache.exp, show and (not isPeriod) and isHero)
                     hjapi.DzFrameShow(demoCache.exp_val, show and (not isPeriod) and isHero)
                     hjapi.DzFrameShow(demoCache.exp_ratio, show and (not isPeriod) and isHero)
-                    hjapi.DzFrameShow(demoCache.punish, show and isEnPunish)
-                    hjapi.DzFrameShow(demoCache.punish_val, show and isEnPunish)
+                    hjapi.DzFrameShow(demoCache.punish, isBarPunish)
+                    hjapi.DzFrameShow(demoCache.punish_val, isBarPunish)
                     hjapi.DzFrameShow(demoCache.bar_e1, show and isBarE1)
                     hjapi.DzFrameShow(demoCache.bar_e2, show and isBarE2)
                     hjapi.DzFrameShow(demoCache.bar_period, show and isBarPeriod)
@@ -992,28 +848,9 @@ return {
         demoCache.more_txt = hdzui.frameTag("TEXT", "txt_10l", demoCache.game)
         hdzui.framePoint(demoCache.more_txt, demoCache.more_tip, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
         hjapi.DzFrameShow(demoCache.more_txt, false)
-        for i, b in ipairs(moreBtns) do
-            local bk = "btn_" .. b
-            demoCache[bk] = hdzui.frameTag("BUTTON", bk, demoCache.game)
-            hdzui.framePoint(demoCache[bk], demoCache.main, FRAME_ALIGN_LEFT, FRAME_ALIGN_CENTER, 0.074, -(i - 1) * 0.015)
-            hjapi.DzFrameSetSize(demoCache[bk], 0.010, 0.012)
-            hplayer.forEach(function(enumPlayer, idx)
-                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_ENTER, function()
-                    hjapi.DzFrameSetSize(demoCache.more_tip, demoCache.tips[i].width, demoCache.tips[i].height)
-                    hjapi.DzFrameSetPoint(demoCache.more_tip, FRAME_ALIGN_LEFT_BOTTOM, demoCache.game, 7, 0.088, 0.07 - i * 0.015)
-                    hjapi.DzFrameSetText(demoCache.more_txt, demoCache.tips[i].content)
-                    hjapi.DzFrameShow(demoCache.more_tip, true)
-                    hjapi.DzFrameShow(demoCache.more_txt, true)
-                end)
-                hdzui.onMouse(demoCache[bk], MOUSE_ORDER_LEAVE, function()
-                    hjapi.DzFrameShow(demoCache.more_tip, false)
-                    hjapi.DzFrameShow(demoCache.more_txt, false)
-                end)
-            end)
-        end
         -- UI展示
         demoCache.update()
-        demoCache.updateTimer = htime.setInterval(0.1, function(_)
+        demoCache.updateTimer = htime.setInterval(0.2, function(_)
             demoCache.update()
         end)
     end

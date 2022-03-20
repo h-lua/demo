@@ -1,22 +1,7 @@
-local sk1 = hslk_ability_ring({
-    Name = "月神强击",
-    Art = "ReplaceableTextures\\PassiveButtons\\PASBTNTrueShot.blp",
-    TargetArt = "Abilities\\Spells\\NightElf\\TrueshotAura\\TrueshotAura.mdl",
-    Area = { 600 },
-    Hotkey = "E",
-    race = "human",
-    _ring = {
-        attr = {
-            attack_green = "+90",
-            aim = "+20"
-        },
-    },
-})
-
 hslk_hero({
     Name = "白虎女祭祀",
     Propernames = "米拉",
-    Ubertip = hcolor.sky("特性：典雅之月") .. "|n" .. hcolor.grey("侍奉月神的骑白虎女弓手，在月光的照耀下优雅游击战斗"),
+    Ubertip = hcolor.grey("侍奉月神的骑白虎女弓手，在月光的照耀下优雅游击战斗"),
     Art = "ReplaceableTextures\\CommandButtons\\BTNPriestessOfTheMoon.blp",
     file = "units\\nightelf\\HeroMoonPriestess\\HeroMoonPriestess",
     unitSound = "HeroMoonPriestess",
@@ -45,6 +30,5 @@ hslk_hero({
     goldcost = 0,
     lumbercost = 0,
     fused = 0,
-    abilList = string.implode(",", { "AInv", sk1._id }),
-    _feature = "典雅之月",
+    abilList = string.implode(",", { "AInv" }),
 })

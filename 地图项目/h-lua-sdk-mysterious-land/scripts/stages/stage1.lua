@@ -99,7 +99,6 @@ stage1 = function()
         if (killer ~= nil) then
             haward.forGroupExp(killer, exp)
         end
-        stage_fleeting(deadUnit, 25 + game.diff)
     end)
     hevent.onEnterRect(trap1, function(evtData)
         if (his.alive(boss) and his.allyPlayer(evtData.triggerUnit, game.ALLY_PLAYER)) then

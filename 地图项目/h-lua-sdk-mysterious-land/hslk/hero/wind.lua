@@ -1,7 +1,7 @@
 hslk_hero({
     Name = "疾风剑圣",
     Propernames = "逸风",
-    Ubertip = hcolor.sky("特性：剑圣") .. "|n" .. hcolor.grey("无影无踪的剑圣，一人如同万军的神剑。在过去逃出生天后，开始在山海间游历。"),
+    Ubertip = hcolor.grey("无影无踪的剑圣，一人如同万军的神剑。在过去逃出生天后，开始在山海间游历。"),
     Art = "ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.blp",
     file = "units\\orc\\HeroBladeMaster\\HeroBladeMaster",
     unitSound = "HeroBladeMaster",
@@ -30,5 +30,4 @@ hslk_hero({
     lumbercost = 0,
     fused = 0,
     abilList = string.implode(",", { "AInv" }),
-    _feature = "剑圣",
 })
