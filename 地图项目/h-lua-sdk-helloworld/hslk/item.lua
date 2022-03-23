@@ -37,7 +37,7 @@ local items = {
     },
     {
         Name = "双铁剑",
-        Ubertip = "跳跳跳",
+        Ubertip = "点人",
         Art = "ReplaceableTextures\\CommandButtons\\BTNDaggerOfEscape.blp",
         goldcost = 2000,
         lumbercost = 0,

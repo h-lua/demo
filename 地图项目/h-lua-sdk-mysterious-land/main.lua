@@ -44,6 +44,7 @@ function main()
             dzCurrent.enableRecord(hplayer.players[i])
         end
     end
+
     -- 第 1 玩家选择模式
     echo("第1位玩家正在选择难度", nil, 10)
     hdialog.create(

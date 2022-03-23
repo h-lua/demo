@@ -65,7 +65,7 @@ function main()
         haward.forUnitExp(evtData.triggerUnit, evtData.damage / 30)
     end)
 
-    print_mb(os.date("%Y年%m月%d日%H时%M分%S秒-星期%w", htime.unix()))
+    print(os.date("%Y年%m月%d日%H时%M分%S秒-星期%w", htime.unix()))
 
     htime.setInterval(1, function(curTimer)
         if (hterrain.isWater(hunit.x(me), hunit.y(me))) then

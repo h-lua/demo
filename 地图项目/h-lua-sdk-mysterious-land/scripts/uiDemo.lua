@@ -281,29 +281,7 @@ return {
                                 if (defCheck == true) then
                                     return hcolor.grey(label .. ":" .. def)
                                 end
-                                local sUp = "+"
-                                local sDown = "-"
-                                if (isPositive == false) then
-                                    sUp = "-"
-                                    sDown = "+"
-                                end
-                                local up = 0
-                                local down = 0
-                                if (type(buffs) == "table") then
-                                    for _, bk in ipairs(buffs) do
-                                        up = up + hbuff.count(selection, "attr." .. bk .. sUp)
-                                        down = down + hbuff.count(selection, "attr." .. bk .. sDown)
-                                    end
-                                end
-                                local atr
-                                if (up == down) then
-                                    atr = label .. ":" .. val .. unit
-                                elseif (up > down) then
-                                    atr = label .. ":" .. hcolor.green(val .. unit)
-                                else
-                                    atr = label .. ":" .. hcolor.red(val .. unit)
-                                end
-                                return atr
+                                return label .. ":" .. val .. unit
                             end
                             data.reborn = attrBuilder(
                                 "复活", "不能", attr.reborn < 0,

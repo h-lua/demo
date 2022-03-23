@@ -54,7 +54,7 @@ function main()
             "timer",
             "stop",
         }, type) == false) then
-            print_err('error:' .. type)
+            err('error:' .. type)
             return
         end
         if (type == 'stop') then
@@ -62,7 +62,7 @@ function main()
             return
         end
         running = true;
-        print_mb("========测试开始"
+        print("========测试开始"
             .. "\n->type:" .. types[type]
             .. "\n->concurrent:" .. concurrent
             .. "\n->frequency:" .. frequency
@@ -81,13 +81,13 @@ function main()
                 function()
                     n = n + 1
                     if (n % 1000 == 0) then
-                        print_mb("====== = >" .. types[type] .. n .. "次")
+                        print("====== = >" .. types[type] .. n .. "次")
                     end
                     if (n > number or running == false) then
                         cj.PauseTimer(t)
                         cj.DestroyTimer(t)
                         running = false;
-                        print_mb("========" .. types[type] .. "测试结束，内存" .. collectgarbage("count") .. "========")
+                        print("========" .. types[type] .. "测试结束，内存" .. collectgarbage("count") .. "========")
                         cache = {}
                         return
                     end
