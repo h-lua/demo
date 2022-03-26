@@ -1,3 +1,2 @@
-# h-lua demo
-
-适用于 h-lua 的 demo演示
+* 【repo】[https://github.com/hunzsig-warcraft3/h-lua](https://github.com/hunzsig-warcraft3/h-lua)
+* 【mirror】[https://gitlab.com/hunzsig/h-lua-demo](https://gitlab.com/hunzsig/h-lua-demo)
