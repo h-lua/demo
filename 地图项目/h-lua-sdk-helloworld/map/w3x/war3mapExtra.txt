@@ -1,3 +1,0 @@
-[MapExtraInfo]
-SkyModel=7
-
