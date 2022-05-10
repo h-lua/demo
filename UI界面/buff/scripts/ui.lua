@@ -1,8 +1,9 @@
-hdzui.wideScreen()
--- hdzui.hideInterface()
+hjapi.DzEnableWideScreen(true)
+--hjapi.DzFrameHideInterface()
+--hjapi.DzFrameEditBlackBorders(0, 0)
 
 UI = function()
-    hdzui.loadToc("UI\\frame.toc")
+    hjapi.DzLoadToc("UI\\frame.toc")
 
     local playerTxt = {}
     playerTxt[hplayer.index(hplayer.players[1])] = {}
@@ -13,20 +14,19 @@ UI = function()
     end)
 
     local tip = {}
-    tip[1] = hdzui.frameTag("BACKDROP", "exp_kk", hdzui.origin.game())
+    tip[1] = hjapi.FrameTag("BACKDROP", "exp_kk", hjapi.DzGetGameUI())
 
-    tip[2] = hdzui.frameTag("TEXT", "txt_10l", tip[1])
+    tip[2] = hjapi.FrameTag("TEXT", "txt_10l", tip[1])
     hjapi.DzFrameSetSize(tip[2], 0.16, 0)
     hjapi.DzFrameSetPoint(tip[1], 0, tip[2], 0, -0.005, 0.005)
     hjapi.DzFrameSetPoint(tip[1], 8, tip[2], 8, 0.005, -0.005)
-    --hdzui.framePoint(tip[2], demoCache.itemSlot[1], FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_LEFT_TOP, -0.002, 0.02)
     hjapi.DzFrameShow(tip[1], false)
 
     local tipTxt = function()
         local fm = hjapi.DzGetTriggerUIEventFrame()
         local idx = hplayer.index(hjapi.DzGetTriggerUIEventPlayer())
         hjapi.DzFrameSetText(tip[2], playerTxt[idx][fm])
-        hdzui.framePoint(tip[2], fm, FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_RIGHT_TOP, -0.01, 0.01)
+        hjapi.FrameRelation(tip[2], FRAME_ALIGN_LEFT_BOTTOM, fm, FRAME_ALIGN_RIGHT_TOP, -0.01, 0.01)
         hjapi.DzFrameShow(tip[1], true)
     end
     local tipTxtNo = function()
@@ -54,33 +54,33 @@ UI = function()
 
 
         --buff图标
-        SLBuffExts[i] = hdzui.frameTag("BACKDROP", "sdk_buff->ext->" .. i, hdzui.origin.game(), "")
-        hjapi.DzFrameSetPoint(SLBuffExts[i], 7, hdzui.origin.game(), 7, x, y)
+        SLBuffExts[i] = hjapi.FrameTag("BACKDROP", "sdk_buff->ext->" .. i, hjapi.DzGetGameUI(), "")
+        hjapi.DzFrameSetPoint(SLBuffExts[i], 7, hjapi.DzGetGameUI(), 7, x, y)
         hjapi.DzFrameSetSize(SLBuffExts[i], bagRx, bagRy)
         hjapi.DzFrameShow(SLBuffExts[i], false)
 
         --三角图标
-        SLBuffBorders[i] = hdzui.frameTag("BACKDROP", "sdk_buff->border->" .. i, SLBuffExts[i], "")
+        SLBuffBorders[i] = hjapi.FrameTag("BACKDROP", "sdk_buff->border->" .. i, SLBuffExts[i], "")
         hjapi.DzFrameSetPoint(SLBuffBorders[i], 4, SLBuffExts[i], 4, 0, 0)
         hjapi.DzFrameSetSize(SLBuffBorders[i], bagRx, bagRy)
         hjapi.DzFrameShow(SLBuffBorders[i], true)
 
         --时间文本
-        SLBuffTxt[i] = hdzui.frameTag("TEXT", "T666", SLBuffExts[i])
+        SLBuffTxt[i] = hjapi.FrameTag("TEXT", "T666", SLBuffExts[i])
         hjapi.DzFrameSetText(SLBuffTxt[i], "")
         hjapi.DzFrameSetPoint(SLBuffTxt[i], 4, SLBuffExts[i], 4, 0, 0)
         hjapi.DzFrameShow(SLBuffTxt[i], true)
 
         --按钮
-        SLBuffBtns[i] = hdzui.frameTag("BUTTON", "sdk_buff->btn->" .. i, SLBuffExts[i], nil)
+        SLBuffBtns[i] = hjapi.FrameTag("BUTTON", "sdk_buff->btn->" .. i, SLBuffExts[i], nil)
         hjapi.DzFrameSetPoint(SLBuffBtns[i], 4, SLBuffExts[i], 4, 0, 0)
         hjapi.DzFrameSetSize(SLBuffBtns[i], bagRx, bagRy)
         hjapi.DzFrameShow(SLBuffBtns[i], true)
 
         --进入按钮动作
 
-        hdzui.onMouse(SLBuffBtns[i], 2, tipTxt)
-        hdzui.onMouse(SLBuffBtns[i], 3, tipTxtNo)
+        hjapi.DzFrameSetScriptByCode(SLBuffBtns[i], 2, tipTxt, false)
+        hjapi.DzFrameSetScriptByCode(SLBuffBtns[i], 3, tipTxtNo, false)
         --
 
     end
