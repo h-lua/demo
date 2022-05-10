@@ -1,14 +1,22 @@
-hdzui.wideScreen()
--- hdzui.hideInterface()
+hjapi.DzEnableWideScreen(true)
+--hjapi.DzFrameHideInterface()
+--hjapi.DzFrameEditBlackBorders(0, 0)
 
 UI = function()
-    --加载toc
-    hdzui.loadToc("UI\\frame.toc")
+    print(hjapi.DzLoadToc("UI\\frame.toc"))
+    print(hjapi.DzLoadToc("UI\\frame.toc"))
     --初始化
-    game.awar = hdzui.frame("awar", hdzui.origin.game(), 0)
+    game.awar = hjapi.DzCreateFrame("awar", hjapi.DzGetGameUI(), 0)
     --设置位置
     hjapi.DzFrameSetAbsolutePoint(game.awar, 4, 0.388, 0.350)
     hjapi.DzFrameShow(game.awar, false)
+
+    dump({
+        game.awar,
+        hjapi.DzFrameFindByName("awar_jn_1", 0),
+        hjapi.DzFrameFindByName("awar_jnname_1", 0),
+        hjapi.DzFrameFindByName("awar_jnsm_1", 0),
+    })
 
 
     --注册3个按钮点击事件
@@ -20,11 +28,11 @@ UI = function()
 
     --鼠标点击
     for i = 1, 3 do
-        hdzui.onMouse(hjapi.DzFrameFindByName("awar_" .. i, 0), GAME_KEY_MOUSE_LEFT, function()
+        hjapi.DzFrameSetScriptByCode(hjapi.DzFrameFindByName("awar_" .. i, 0), GAME_KEY_MOUSE_LEFT, function()
             local tb = { i }
-            hsync.send("skillLeft", tb)
             hjapi.DzFrameShow(game.awar, false)
-        end)
+            hsync.send("skillLeft", tb)
+        end, false)
     end
 
 end
