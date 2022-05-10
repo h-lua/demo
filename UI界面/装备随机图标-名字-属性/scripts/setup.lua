@@ -9,7 +9,8 @@ SETUP = function()
     hcmd.conf({ "-gg", "-apm", "-apc", "-d" }, { 1 })
 
     -- 调试自动去除迷雾
-    henv.setFogStatus(DEBUGGING == false, DEBUGGING == false)
+    cj.FogEnable(not DEBUGGING)
+    cj.FogMaskEnable(not DEBUGGING)
 
     -- 设定玩家
     hplayer.qty_max = 1 -- 最大玩家数
@@ -17,20 +18,5 @@ SETUP = function()
 
     -- 设定敌军
     henemy.set("怪物", nil, { 2 }, false)
-
-    --- 设定获得黄金木头特效
-    hevent.onPlayerResourceChange(function(evtData)
-        if (evtData.triggerUnit ~= nil and evtData.value > 0) then
-            local u = evtData.triggerUnit
-            local val = math.floor(evtData.value)
-            if (evtData.type == 'gold') then
-                htextTag.model({ msg = "+" .. val .. "金", whichUnit = u, red = 255, green = 215, blue = 0 })
-                hsound.voice2Unit(cg.gg_snd_ReceiveGold, 100, u)
-            elseif (evtData.type == 'lumber') then
-                htextTag.model({ msg = "+" .. val .. "木", whichUnit = u, red = 34, green = 139, blue = 34 })
-                hsound.voice2Unit(cg.gg_snd_BundleOfLumber, 100, u)
-            end
-        end
-    end)
 
 end

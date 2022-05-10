@@ -1,16 +1,20 @@
-hdzui.wideScreen()
--- hdzui.hideInterface()
+hjapi.DzEnableWideScreen(true)
+--hjapi.DzFrameHideInterface()
+--hjapi.DzFrameEditBlackBorders(0, 0)
 
 UI = function()
     -- 编写属于你的UI
     -- Print your UI
-    hdzui.loadToc("UI\\frame.toc")
+    hjapi.DzLoadToc("UI\\frame.toc")
     local demoCache = {}
-    demoCache.game = hdzui.origin.game()
+    demoCache.game = hjapi.DzGetGameUI()
 
-    demoCache.itemSlot = hdzui.origin.itemSlot()
+    demoCache.itemSlot = {}
+    for i = 0, 5 do
+        table.insert(demoCache.itemSlot, hjapi.DzFrameGetItemBarButton(i))
+    end
 
-    demoCache.tooltip = hdzui.origin.tooltip()
+    demoCache.tooltip = hjapi.DzFrameGetTooltip()
 
     demoCache.itemIco = {}
 
@@ -22,9 +26,9 @@ UI = function()
     end)
 
     local tip = {}
-    tip[1] = hdzui.frameTag("BACKDROP", "exp_kk", hdzui.origin.game())
+    tip[1] = hjapi.FrameTag("BACKDROP", "exp_kk", demoCache.game)
 
-    tip[2] = hdzui.frameTag("TEXT", "txt_10l", tip[1])
+    tip[2] = hjapi.FrameTag("TEXT", "txt_10l", tip[1])
     hjapi.DzFrameSetSize(tip[2], 0.16, 0)
     hjapi.DzFrameSetPoint(tip[1], 0, tip[2], 0, -0.005, 0.005)
     hjapi.DzFrameSetPoint(tip[1], 8, tip[2], 8, 0.005, -0.005)
@@ -38,7 +42,7 @@ UI = function()
             hjapi.DzFrameSetAbsolutePoint(demoCache.tooltip, 4, 0.9, 0.7)
 
             hjapi.DzFrameSetText(tip[2], playerTxt[idx][fm])
-            hdzui.framePoint(tip[2], hjapi.DzFrameGetItemBarButton(0), FRAME_ALIGN_LEFT_BOTTOM, FRAME_ALIGN_RIGHT_TOP, -0.01, 0.01)
+            hjapi.FrameRelation(tip[2], FRAME_ALIGN_LEFT_BOTTOM, hjapi.DzFrameGetItemBarButton(0), FRAME_ALIGN_RIGHT_TOP, -0.01, 0.01)
             hjapi.DzFrameShow(tip[1], true)
         end
 
@@ -49,14 +53,11 @@ UI = function()
         hjapi.DzFrameShow(tip[1], false)
     end
 
-
-
-
     hsync.onSend("item", function(syncData)
         local i = tonumber(syncData.triggerData[1])
         if (cj.UnitItemInSlot(hero, i - 1) ~= nil) then
 
-            htime.setTimeout(0.1,function(curTimer)
+            htime.setTimeout(0.1, function(curTimer)
                 curTimer.destroy()
                 if (syncData.triggerPlayer == hplayer.loc()) then
                     hjapi.DzFrameSetSize(demoCache.itemIco[i], 0.033, 0.034)
@@ -70,25 +71,24 @@ UI = function()
     end)
 
     for i, f in ipairs(demoCache.itemSlot) do
-        demoCache.itemIco[i]  = hdzui.frameTag("BACKDROP", "itemCleart" .. i, demoCache.game)
-        hdzui.framePoint(demoCache.itemIco[i], f, FRAME_ALIGN_CENTER, FRAME_ALIGN_CENTER, 0, 0)
+        demoCache.itemIco[i] = hjapi.FrameTag("BACKDROP", "itemCleart" .. i, demoCache.game)
+        hjapi.FrameRelation(demoCache.itemIco[i], FRAME_ALIGN_CENTER, f, FRAME_ALIGN_CENTER, 0, 0)
         hjapi.DzFrameSetSize(demoCache.itemIco[i], 0.033, 0.034)
         hjapi.DzFrameShow(demoCache.itemIco[i], false)
 
-        hdzui.onMouse(f, MOUSE_ORDER_CLICK, function()
+        hjapi.DzFrameSetScriptByCode(f, MOUSE_ORDER_CLICK, function()
             local tb = { i }
-            hsync.send("item",tb)
-        end)
+            hsync.send("item", tb)
+        end, false)
 
-        hdzui.onMouse(f, 2, tipTxt)
-        hdzui.onMouse(f, 3, tipTxtNo)
+        hjapi.DzFrameSetScriptByCode(f, 2, tipTxt, false)
+        hjapi.DzFrameSetScriptByCode(f, 3, tipTxtNo, false)
 
     end
 
-    demoCache.cstg = hdzui.frameTag("BACKDROP", "cstg", demoCache.knapsack)
+    demoCache.cstg = hjapi.FrameTag("BACKDROP", "cstg", demoCache.knapsack)
     hjapi.DzFrameSetSize(demoCache.cstg, 0.025, 0.025)
     hjapi.DzFrameShow(demoCache.cstg, false)
-
 
     demoCache.update = function()
 
@@ -99,7 +99,6 @@ UI = function()
                 selection = hplayer.getSelection(enumPlayer)
 
                 if (selection ~= nil) then
-
 
                     for i, f in ipairs(demoCache.itemSlot) do
                         if ((cj.UnitItemInSlot(selection, i - 1) ~= nil)) then
@@ -124,7 +123,6 @@ UI = function()
                             end
                         end
                     end
-
 
                 end
             end
