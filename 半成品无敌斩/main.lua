@@ -88,12 +88,12 @@ function main()
                     if (u ~= nil) then
                         options.prevUnit = options.targetUnit
                         options.targetUnit = u
-                        hskill.leap(options)
+                        leap(options)
                     end
                 end
             end)
 
         end
-        hskill.leap(options)
+        leap(options)
     end
 end
