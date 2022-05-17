@@ -1,13 +1,7 @@
 [CustomSkin]
-ChatFont=fonts.ttf
 CommandButtonCooldown=hLua\cd\cd.mdx
-EscMenuTextFont=fonts.ttf
-InfoPanelTextFont=fonts.ttf
-MasterFont=fonts.ttf
-MessageFont=fonts.ttf
 PlacementCursor=hLua\skin\spell_area_of_effect_512.blp
 SimpleHpBarConsoleSmall=hLua\skin\hp.blp
-TextTagFont=fonts.ttf
 [FrameDef]
 AGILITY=敏捷
 AGILITY_HILIGHT=|cffffff00敏捷|r
