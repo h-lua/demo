@@ -49,7 +49,7 @@ leap = function(options)
         err("leap: -target")
         return
     end
-    if (options.targetUnit ~= nil and his.deleted(options.targetUnit)) then
+    if (options.targetUnit ~= nil and his.unitDestroyed(options.targetUnit)) then
         return
     end
     local frequency = 0.02
@@ -96,11 +96,11 @@ leap = function(options)
         leapType = "point"
     end
     if (options.targetUnit ~= nil) then
-        initFacing = math.getDegBetweenUnit(prevUnit, options.targetUnit)
-        distanceOrigin = math.getDistanceBetweenUnit(prevUnit, options.targetUnit)
+        initFacing = math.angle(hunit.x(prevUnit), hunit.y(prevUnit), hunit.x(options.targetUnit), hunit.y(options.targetUnit))
+        distanceOrigin = math.distance(hunit.x(prevUnit), hunit.y(prevUnit), hunit.x(options.targetUnit), hunit.y(options.targetUnit))
     elseif (options.x ~= nil and options.y ~= nil) then
-        initFacing = math.getDegBetweenXY(hunit.x(prevUnit), hunit.y(prevUnit), options.x, options.y)
-        distanceOrigin = math.getDistanceBetweenXY(hunit.x(prevUnit), hunit.y(prevUnit), options.x, options.y)
+        initFacing = math.angle(hunit.x(prevUnit), hunit.y(prevUnit), options.x, options.y)
+        distanceOrigin = math.distance(hunit.x(prevUnit), hunit.y(prevUnit), options.x, options.y)
     else
         err("leapType: -unknow")
         return
@@ -232,10 +232,10 @@ leap = function(options)
             if (shake == 'random') then
                 shake = math.random(-90, 90)
             end
-            local d = math.getDistanceBetweenXY(hunit.x(arrowUnit), hunit.y(arrowUnit), tx, ty)
+            local d = math.distance(hunit.x(arrowUnit), hunit.y(arrowUnit), tx, ty)
             sh = shake * d / distanceOrigin
         end
-        local fac = math.getDegBetweenXY(ax, ay, tx, ty) + sh
+        local fac = math.angle(ax, ay, tx, ty) + sh
         local px, py = math.polarProjection(ax, ay, speed, fac)
         if (acceleration ~= 0) then
             speed = speed + acceleration
@@ -288,7 +288,7 @@ leap = function(options)
                 g = nil
             end
         end
-        local distance = math.getDistanceBetweenXY(hunit.x(arrowUnit), hunit.y(arrowUnit), tx, ty)
+        local distance = math.distance(hunit.x(arrowUnit), hunit.y(arrowUnit), tx, ty)
         if (height > 0 and distance < distanceOrigin) then
             local ddh = 0.5 - distance / distanceOrigin
             ddh = (heightOrigin + height) * (1 - math.abs(ddh) * 2)

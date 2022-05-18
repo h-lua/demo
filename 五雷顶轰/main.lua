@@ -46,7 +46,7 @@ function main()
                     return
                 end
             end
-            if (his.deleted(whichUnit) or his.dead(whichUnit)) then
+            if (his.unitDestroyed(whichUnit) or his.dead(whichUnit)) then
                 curTimer.destroy()
                 for _, e in ipairs(effs) do
                     cj.DestroyEffect(e)
@@ -140,13 +140,12 @@ function main()
                     hlightning.type.shan_dian_lian_zhu,
                     evtData.x, evtData.y, evtData.z,
                     hunit.x(evtData.targetUnit), hunit.y(evtData.targetUnit), hunit.z(evtData.targetUnit),
-                    0.1)
+                    0.2)
                 local dmg = math.random(10, 99)
                 hskill.damage({
                     sourceUnit = evtData.sourceUnit,
                     targetUnit = evtData.targetUnit,
                     damage = dmg,
-                    damageRGB = { 150, 150, 255 },
                     damageSrc = CONST_DAMAGE_SRC.skill,
                     effect = "Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl",
                 })

@@ -6,7 +6,7 @@ SKILL = function()
             local u = evtData.triggerUnit
             local x = hunit.x(u)
             local y = hunit.y(u)
-            local px, py = math.polarProjection(x, y, 2000, math.getDegBetweenXY(x, y, evtData.targetX, evtData.targetY))
+            local px, py = math.polarProjection(x, y, 2000, math.angle(x, y, evtData.targetX, evtData.targetY))
             local onlyOne = {}
             missile({
                 model = "Abilities\\Weapons\\HarpyMissile\\HarpyMissile.mdl",
@@ -40,7 +40,7 @@ SKILL = function()
             local u = evtData.triggerUnit
             local x = hunit.x(u)
             local y = hunit.y(u)
-            local facing = math.getDegBetweenXY(x, y, evtData.targetX, evtData.targetY)
+            local facing = math.angle(x, y, evtData.targetX, evtData.targetY)
             local firstDeg = facing + (15 * (3 - 1) * 0.5)
 
             for i = 1, 3 do

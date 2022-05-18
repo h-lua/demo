@@ -18,8 +18,9 @@ SKILL = function()
                 missile({
                     model = "war3mapImported\\GiantFireFist.mdx",
                     scale = 1,
-                    hover = math.random(0, 500),
+                    height = math.random(0, 100),
                     speed = 1000,
+                    shake = "rand",
                     sourceUnit = u,
                     targetUnit = evtData.targetUnit,
                     startX = px,

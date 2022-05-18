@@ -17,7 +17,7 @@ crackFly = function(options)
     if (options.damage == nil or options.damage < 0) then
         return
     end
-    if (options.targetUnit == nil or his.deleted(options.targetUnit)) then
+    if (options.targetUnit == nil or his.unitDestroyed(options.targetUnit)) then
         return
     end
     local odds = options.odds or 100
@@ -63,7 +63,7 @@ crackFly = function(options)
     local originFacing = hunit.getFacing(options.targetUnit)
     local originDeg
     if (options.sourceUnit ~= nil) then
-        originDeg = math.getDegBetweenUnit(options.sourceUnit, options.targetUnit)
+        originDeg = math.distance(hunit.x(options.sourceUnit), hunit.y(options.sourceUnit), hunit.x(options.targetUnit), hunit.y(options.targetUnit))
     else
         originDeg = math.random(0, 360)
     end
@@ -80,8 +80,6 @@ crackFly = function(options)
                     effect = options.effect,
                     damage = damage,
                     damageSrc = options.damageSrc,
-                    damageString = "击飞",
-                    damageRGB = { 128, 128, 0 },
                 })
             end
             cj.SetUnitFlyHeight(options.targetUnit, originHigh, 10000)
@@ -145,7 +143,7 @@ silent = function(options)
     if (options.during == nil or options.during <= 0) then
         return
     end
-    if (options.targetUnit == nil or his.deleted(options.targetUnit)) then
+    if (options.targetUnit == nil or his.unitDestroyed(options.targetUnit)) then
         return
     end
     local u = options.targetUnit
@@ -213,7 +211,7 @@ unarm = function(options)
     if (options.during == nil or options.during <= 0) then
         return
     end
-    if (options.targetUnit == nil or his.deleted(options.targetUnit)) then
+    if (options.targetUnit == nil or his.unitDestroyed(options.targetUnit)) then
         return
     end
     local u = options.targetUnit
@@ -271,7 +269,7 @@ SKILL = function()
             local x = hunit.x(u)
             local y = hunit.y(u)
             local i = 0
-            htime.setInterval(0.5, function(curTimer)
+            htime.setInterval(0.3, function(curTimer)
                 i = i + 1
                 if (i > 5) then
                     curTimer.destroy()
@@ -290,7 +288,7 @@ SKILL = function()
                             sourceUnit = u, --伤害来源单位（可选）
                             odds = 100, --几率（可选,默认100）
                             distance = 0, --击退距离，可选，默认0
-                            height = 200, --击飞高度，可选，默认100
+                            height = math.random(300, 800), --击飞高度，可选，默认100
                             during = 0.5, --击飞过程持续时间，可选，默认0.5秒
                         })
                     end)

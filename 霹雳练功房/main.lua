@@ -111,7 +111,7 @@ function main()
                     boring = false
                     if (curMons ~= nil) then
                         hgroup.forEach(curMons, function(enumUnit)
-                            hunit.del(enumUnit)
+                            hunit.destroy(enumUnit)
                         end)
                     end
                     echo("修炼结束")
