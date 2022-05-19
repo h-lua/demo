@@ -30,12 +30,12 @@ function main()
         y = 0,
         isOpenSlot = true,
     })
-    for _ = 1, 10 do
+    for _ = 1, 20 do
         henemy.create({
             whichPlayer = hplayer.players[1],
             id = hslk.n2i("天选勇者"),
-            x = math.random(500,1500),
-            y = math.random(500,1500),
+            x = math.random(-300, 300),
+            y = math.random(-300, 300),
         })
     end
 
