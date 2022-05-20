@@ -5,9 +5,6 @@ SETUP = function()
     hplayer.qty_max = 1 -- 最大玩家数
     hplayer.convert_ratio = 1000000 -- 换算比率，100金 -> 1木
 
-    -- 设定玩家支持的默认命令
-    hcmd.conf({ "-gg", "-apm", "-apc", "-d" }, { 1 })
-
     -- 调试自动去除迷雾
     cj.FogEnable(not DEBUGGING)
     cj.FogMaskEnable(not DEBUGGING)
