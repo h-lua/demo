@@ -8,6 +8,30 @@ local function _missileEnding(isok, arrowToken, options, point)
     if (res == true and type(options.onEnd) == "function") then
         res = options.onEnd(options.sourceUnit, options.targetUnit, point[1], point[2], point[3])
     end
+    if (res == true and options.reflex > 0) then
+        if (options.targetUnit ~= nil) then
+            local g = hgroup.createByXY(point[1], point[2], 600, function(enumUnit)
+                return false == his.unit(options.targetUnit, enumUnit) and his.enemy(options.sourceUnit, enumUnit) and his.alive(enumUnit)
+            end)
+            local nextUnit = table.random(g, 1)
+            if (nextUnit) then
+                missile({
+                    model = options.model,
+                    scale = options.scale,
+                    sourceUnit = options.sourceUnit,
+                    speed = options.speed,
+                    height = options.height * 0.9,
+                    acceleration = options.acceleration,
+                    shake = options.shake,
+                    shakeOffset = options.shakeOffset,
+                    reflex = options.reflex - 1,
+                    onEnd = options.onEnd,
+                    sourcePoint = point,
+                    targetUnit = nextUnit,
+                })
+            end
+        end
+    end
 end
 
 --[[
@@ -174,28 +198,22 @@ SKILL = function()
     ---@param evtData onSkillEffectData
     hevent.reaction(CONST_EVENT.skillEffect, "skills", function(evtData)
         local name = hslk.i2v(evtData.triggerSkill, "slk", "Name")
-        if (name == "乱拳打死老师傅") then
+        if (name == "精灵球星爆") then
             local u = evtData.triggerUnit
-            local x = hunit.x(u)
-            local y = hunit.y(u)
-            local ang = hunit.getFacing(u)
-            local px, py = math.polarProjection(x, y, -300, ang)
-            local i = 0
-            htime.setInterval(0.3, function(curTimer)
-                i = i + 1
-                if (i > 20 or his.alive(evtData.targetUnit) == false) then
-                    curTimer.destroy()
-                    return
-                end
+            local x = hunit.x(evtData.targetUnit)
+            local y = hunit.y(evtData.targetUnit)
+            for i = 1, 50 do
+                local px, py = math.polarProjection(x, y, 300, i * 360 / 5)
                 missile({
-                    model = "war3mapImported\\GiantFireFist.mdx",
+                    model = "Abilities\\Weapons\\FaerieDragonMissile\\FaerieDragonMissile.mdl",
                     scale = 1,
-                    height = math.random(200, 400),
-                    speed = 1000,
+                    height = math.random(1000, 1500),
+                    speed = 666,
                     shake = "rand",
+                    reflex = 3,
                     sourceUnit = u,
                     targetUnit = evtData.targetUnit,
-                    sourcePoint = { px, math.random(py - 300, py + 300), 0 },
+                    sourcePoint = { px, py, hjapi.Z(px, py) },
                     onEnd = function(source, target, _, _)
                         hskill.damage({
                             sourceUnit = source, --伤害来源(可选)
@@ -203,9 +221,10 @@ SKILL = function()
                             damage = hattr.get(source, "str") * 10, --实际伤害
                             damageSrc = CONST_DAMAGE_SRC.skill,
                         })
+                        return true
                     end
                 })
-            end)
+            end
         end
     end)
 end
