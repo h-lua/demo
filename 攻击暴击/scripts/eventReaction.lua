@@ -16,19 +16,6 @@ local function _z(u, offset)
     return hunit.h(u) + 130 + offset
 end
 
----@param evtData onBeAttackReadyData
-hevent.reaction(CONST_EVENT.beAttackReady, function(evtData)
-    local odds = hattr.get(evtData.attackUnit, "critOdds") or 0
-    local isSlam = hcache.get(evtData.attackUnit, "critAnimation", false)
-    if (odds >= 100 and isSlam == false) then
-        cj.AddUnitAnimationProperties(evtData.attackUnit, "slam", true)
-        hcache.set(evtData.attackUnit, "critAnimation", true)
-    elseif (odds < 100 and isSlam == true) then
-        cj.AddUnitAnimationProperties(evtData.attackUnit, "slam", false)
-        hcache.set(evtData.attackUnit, "critAnimation", false)
-    end
-end)
-
 ---@param evtData onBeDamageData
 hevent.reaction(CONST_EVENT.beDamage, function(evtData)
     hmodelTag.word({

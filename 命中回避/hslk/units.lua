@@ -16,7 +16,7 @@ hslk_unit({
 
 hslk_unit({
     _parent = "hpea",
-    Name = "天选勇者",
+    Name = "被刀的菜菜",
     HP = 10000,
     abilList = "",
     abilList = string.implode(",", { skill._id }),

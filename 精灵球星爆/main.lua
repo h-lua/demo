@@ -25,7 +25,7 @@ function main()
 
     hunit.create({
         whichPlayer = hplayer.players[1],
-        id = hslk.n2i("剑人"),
+        id = hslk.n2i("剑圣"),
         x = 0,
         y = 0,
         isOpenSlot = true,
@@ -33,7 +33,7 @@ function main()
     for _ = 1, 30 do
         henemy.create({
             whichPlayer = hplayer.players[1],
-            id = hslk.n2i("天选勇者"),
+            id = hslk.n2i("被刀的菜菜"),
             x = math.random(-500, 500),
             y = math.random(-500, 500),
         })

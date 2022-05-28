@@ -32,7 +32,7 @@ function main()
     })
 
     henemy.create({
-        id = hslk.n2i("天选勇者"),
+        id = hslk.n2i("被刀的菜菜"),
         x = math.random(-500, 500),
         y = math.random(-500, 500),
         attr = {
