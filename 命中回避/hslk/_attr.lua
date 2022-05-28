@@ -4,3 +4,7 @@ ATTR_CONFIGURATOR({
     { "aim", "命中加成", 0 },
     { "avoid", "回避几率", 0 },
 })
+description.setPercentKey({
+    "aim",
+    "avoid",
+})
