@@ -46,7 +46,7 @@ function main()
                     return
                 end
             end
-            if (his.unitDestroyed(whichUnit) or his.dead(whichUnit)) then
+            if (hunit.isDestroyed(whichUnit) or hunit.isDead(whichUnit)) then
                 curTimer.destroy()
                 for _, e in ipairs(effs) do
                     cj.DestroyEffect(e)
@@ -91,7 +91,7 @@ function main()
                     if (ci >= callFrq) then
                         local g = hgroup.createByXY(px, py, callRadius,
                             function(filterUnit)
-                                return his.alive(filterUnit) and his.enemy(whichUnit, filterUnit)
+                                return hunit.isAlive(filterUnit) and hunit.isEnemy(whichUnit, filterUnit)
                             end
                         )
                         if (#g > 0) then

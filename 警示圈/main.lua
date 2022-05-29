@@ -16,10 +16,10 @@ function main()
     print("hello world!")
     echo("你好，世界！")
 
-    htime.setInterval(0.2, function()
+    htime.setInterval(0.1, function()
         alertCircleExclamation(math.random(64, 512), math.random(0, 1000), 0, 1, PLAYER_COLOR_RED)
     end)
-    htime.setInterval(0.2, function()
+    htime.setInterval(0.1, function()
         alertCircleX(math.random(64, 512), math.random(0, -1000), 0, 1, PLAYER_COLOR_GREEN)
     end)
 

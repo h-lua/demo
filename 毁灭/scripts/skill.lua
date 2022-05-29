@@ -18,7 +18,7 @@
 function crackFly(options)
     local sourceUnit = options.sourceUnit
     local targetUnit = options.targetUnit
-    if (targetUnit == nil or his.dead(targetUnit)) then
+    if (targetUnit == nil or hunit.isDead(targetUnit)) then
         return
     end
     local distance = math.max(0, options.distance or 0)
@@ -80,7 +80,7 @@ function crackFly(options)
     end
     cj.SetUnitPathing(targetUnit, false)
     htime.setInterval(frequency, function(curTimer)
-        if (his.dead(targetUnit)) then
+        if (hunit.isDead(targetUnit)) then
             curTimer.destroy()
             ending(ax, ay, false)
             return
@@ -88,7 +88,7 @@ function crackFly(options)
         if (distance > 0) then
             local fac = math.angle(targetX, targetY, ax, ay)
             local nx, ny = math.polarProjection(ax, ay, speed * distance, fac)
-            if (his.borderCamera(nx, ny)) then
+            if (hrect.isBorderCamera(nx, ny)) then
                 nx = ax
                 ny = ay
             end
@@ -114,7 +114,7 @@ function crackFly(options)
             hunit.setFlyHeight(targetUnit, math.max(dh, d0), 9999)
         end
         limit = limit + 1
-        if (limit > 400 or his.unitDestroyed(targetUnit)) then
+        if (limit > 400 or hunit.isDestroyed(targetUnit)) then
             -- 超时消失
             curTimer.destroy()
             ending(ax, ay, false)
@@ -147,7 +147,7 @@ SKILL = function()
                     local px, py = math.polarProjection(x, y, i * 200, 36 * n)
                     heffect.xyz("Abilities\\Spells\\Undead\\Impale\\ImpaleHitTarget.mdl", px, py, 0, 0)
                     local g = hgroup.createByXY(px, py, 150, function(filterUnit)
-                        return his.enemy(u, filterUnit) and his.alive(filterUnit)
+                        return hunit.isEnemy(u, filterUnit) and hunit.isAlive(filterUnit)
                     end)
                     hgroup.forEach(g, function(enumUnit, _)
                         crackFly({

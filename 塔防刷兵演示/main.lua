@@ -13,15 +13,15 @@ function main()
     SETUP()
     UI()
 
-    hcamera.changeDistance(hplayer.players[1],1000)
+    hcamera.changeDistance(hplayer.players[1], 1000)
 
     --怪物路径
     for k, v in ipairs(game.pathPoint) do
         for i, p in ipairs(v) do
             local r = hrect.create(p[1], p[2], 175, 175, "rect" .. k .. i)
-            hevent.onEnterRect(r,function(evtData)
+            hevent.onEnterRect(r, function(evtData)
                 local u = evtData.triggerUnit
-                if (his.enemyPlayer(u,hplayer.players[1])) then
+                if (hunit.isEnemyPlayer(u, hplayer.players[1])) then
                     if (i == #v) then
                         --最后区域
                         hunit.del(u)
@@ -41,7 +41,7 @@ function main()
 
     --刷怪
     local i = 0
-    htime.setInterval(1,function(curTimer)
+    htime.setInterval(1, function(curTimer)
         i = i + 1
         if (i >= 10) then
             curTimer.destroy()

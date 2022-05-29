@@ -113,7 +113,7 @@ function missile(options)
     local cPoint = { sPoint[1], sPoint[2], sPoint[3] }
     local fac = fac0
     htime.setInterval(frequency, function(curTimer)
-        if (arrowToken == nil or his.unitDestroyed(sourceUnit) or (targetUnit ~= nil and his.unitDestroyed(targetUnit))) then
+        if (arrowToken == nil or hunit.isDestroyed(sourceUnit) or (targetUnit ~= nil and hunit.isDestroyed(targetUnit))) then
             curTimer.destroy()
             _missileEnding(false, arrowToken, options, cPoint)
             return
@@ -134,7 +134,7 @@ function missile(options)
             sPoint[2] + 2 * (mPoint[2] - sPoint[2]) * dt + (tPoint[2] - 2 * mPoint[2] + sPoint[2]) * dt ^ 2,
             sPoint[3] + 2 * (mPoint[3] - sPoint[3]) * dt + (tPoint[3] - 2 * mPoint[3] + sPoint[3]) * dt ^ 2,
         }
-        if (his.borderCamera(nPoint[1], nPoint[2])) then
+        if (hrect.isBorderCamera(nPoint[1], nPoint[2])) then
             curTimer.destroy()
             _missileEnding(false, arrowToken, options, cPoint)
             return
@@ -183,14 +183,14 @@ SKILL = function()
             local i = 0
             htime.setInterval(0.3, function(curTimer)
                 i = i + 1
-                if (i > 20 or his.alive(evtData.targetUnit) == false) then
+                if (i > 20 or hunit.isAlive(evtData.targetUnit) == false) then
                     curTimer.destroy()
                     return
                 end
                 missile({
                     model = "war3mapImported\\GiantFireFist.mdx",
                     scale = 1,
-                    height = math.random(200, 400),
+                    height = math.random(50, 150),
                     speed = 1000,
                     shake = "rand",
                     sourceUnit = u,

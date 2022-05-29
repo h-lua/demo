@@ -18,7 +18,7 @@ SKILL = function()
                     htime.setTimeout(0.5, function(t)
                         t.destroy()
                         local g = hgroup.createByXY(x, y, 200, function(filterUnit)
-                            return his.enemy(u, filterUnit) and his.alive(filterUnit)
+                            return hunit.isEnemy(u, filterUnit) and hunit.isAlive(filterUnit)
                         end)
                         hgroup.forEach(g, function(enumUnit, _)
                             hskill.damage({

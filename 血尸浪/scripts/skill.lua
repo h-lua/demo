@@ -11,7 +11,7 @@ local function _missileEnding(isok, arrowToken, options, point)
     if (res == true and (options.reflex or 0) > 0) then
         if (options.targetUnit ~= nil) then
             local g = hgroup.createByXY(point[1], point[2], 600, function(enumUnit)
-                return false == his.unit(options.targetUnit, enumUnit) and his.enemy(options.sourceUnit, enumUnit) and his.alive(enumUnit)
+                return false == hunit.isUnit(options.targetUnit, enumUnit) and hunit.isEnemy(options.sourceUnit, enumUnit) and hunit.isAlive(enumUnit)
             end)
             local nextUnit = table.random(g, 1)
             if (nextUnit) then
@@ -137,7 +137,7 @@ function missile(options)
     local cPoint = { sPoint[1], sPoint[2], sPoint[3] }
     local fac = fac0
     htime.setInterval(frequency, function(curTimer)
-        if (arrowToken == nil or his.unitDestroyed(sourceUnit) or (targetUnit ~= nil and his.unitDestroyed(targetUnit))) then
+        if (arrowToken == nil or hunit.isDestroyed(sourceUnit) or (targetUnit ~= nil and hunit.isDestroyed(targetUnit))) then
             curTimer.destroy()
             _missileEnding(false, arrowToken, options, cPoint)
             return
@@ -158,7 +158,7 @@ function missile(options)
             sPoint[2] + 2 * (mPoint[2] - sPoint[2]) * dt + (tPoint[2] - 2 * mPoint[2] + sPoint[2]) * dt ^ 2,
             sPoint[3] + 2 * (mPoint[3] - sPoint[3]) * dt + (tPoint[3] - 2 * mPoint[3] + sPoint[3]) * dt ^ 2,
         }
-        if (his.borderCamera(nPoint[1], nPoint[2])) then
+        if (hrect.isBorderCamera(nPoint[1], nPoint[2])) then
             curTimer.destroy()
             _missileEnding(false, arrowToken, options, cPoint)
             return
@@ -200,7 +200,7 @@ SKILL = function()
         local name = hslk.i2v(evtData.triggerSkill, "slk", "Name")
         if (name == "血尸浪") then
             local g = hgroup.createByXY(evtData.targetX, evtData.targetY, 2000, function(filterUnit)
-                return his.alive(filterUnit) and his.enemy(filterUnit, evtData.triggerUnit)
+                return hunit.isAlive(filterUnit) and hunit.isEnemy(filterUnit, evtData.triggerUnit)
             end)
             for _, u in ipairs(g) do
                 for _ = 1, 3 do

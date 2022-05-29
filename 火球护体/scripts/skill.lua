@@ -129,7 +129,7 @@ function missile(options)
         shakeDirect = -1
     end
     htime.setInterval(frequency, function(curTimer)
-        if (arrowToken == nil or his.unitDestroyed(sourceUnit) or (targetUnit ~= nil and his.unitDestroyed(targetUnit))) then
+        if (arrowToken == nil or hunit.isDestroyed(sourceUnit) or (targetUnit ~= nil and hunit.isDestroyed(targetUnit))) then
             curTimer.destroy()
             ending(ax, ay, false)
             return
@@ -156,7 +156,7 @@ function missile(options)
         if (acceleration ~= 0) then
             speed = speed + acceleration
         end
-        if (his.borderCamera(nx, ny)) then
+        if (hrect.isBorderCamera(nx, ny)) then
             curTimer.destroy()
             ending(ax, ay, false)
             return
@@ -246,7 +246,7 @@ SKILL = function()
                     hjapi.EXSetEffectXY(v, px, py)
 
                     local g = hgroup.createByXY(px, py, 600, function(filterUnit)
-                        return his.enemy(u, filterUnit) and his.alive(filterUnit) and hunit.getUserData(filterUnit) ~= 1
+                        return hunit.isEnemy(u, filterUnit) and hunit.isAlive(filterUnit) and hunit.getUserData(filterUnit) ~= 1
                     end)
                     if (#g > 0) then
                         table.remove(tb, k)
@@ -265,7 +265,7 @@ SKILL = function()
                             startY = py,
                             onEnd = function(source, _, ex, ey)
                                 local eg = hgroup.createByXY(ex, ey, 300, function(filterUnit)
-                                    return his.enemy(source, filterUnit) and his.alive(filterUnit)
+                                    return hunit.isEnemy(source, filterUnit) and hunit.isAlive(filterUnit)
                                 end)
                                 hgroup.forEach(eg, function(enumUnit, _)
                                     hskill.damage({

@@ -5,7 +5,7 @@ SKILL = function()
         if (name == "八门金锁阵除以2") then
             local trigUnit = evtData.triggerUnit
             local g = hgroup.createByXY(hunit.x(trigUnit), hunit.y(trigUnit), 800, function(filterUnit)
-                return his.alive(filterUnit) and his.enemy(filterUnit, trigUnit)
+                return hunit.isAlive(filterUnit) and hunit.isEnemy(filterUnit, trigUnit)
             end)
             if (#g > 0) then
                 local u = table.random(g)
@@ -29,7 +29,7 @@ SKILL = function()
                             curTimer.destroy()
                         end
                         local g1 = hgroup.createByRect(r, function(filterUnit)
-                            return his.alive(filterUnit) and his.enemy(filterUnit, trigUnit)
+                            return hunit.isAlive(filterUnit) and hunit.isEnemy(filterUnit, trigUnit)
                         end)
                         if (#g1 > 0) then
                             hgroup.forEach(g1, function(enumUnit, _)

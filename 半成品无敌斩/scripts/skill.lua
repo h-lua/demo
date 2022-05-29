@@ -49,7 +49,7 @@ leap = function(options)
         err("leap: -target")
         return
     end
-    if (options.targetUnit ~= nil and his.unitDestroyed(options.targetUnit)) then
+    if (options.targetUnit ~= nil and hunit.isDestroyed(options.targetUnit)) then
         return
     end
     local frequency = 0.02
@@ -157,7 +157,7 @@ leap = function(options)
         else
             hunit.setFlyHeight(arrowUnit, heightOrigin, 9999)
         end
-        if (his.alive(arrowUnit)) then
+        if (hunit.isAlive(arrowUnit)) then
             if (options.effectEnd ~= nil) then
                 heffect.xyz(options.effectEnd, endX, endY, nil, 0)
             end
@@ -199,7 +199,7 @@ leap = function(options)
             if (colorBuff) then
                 hunit.delRGBA(arrowUnit, colorBuff)
             end
-            if (his.alive(arrowUnit)) then
+            if (hunit.isAlive(arrowUnit)) then
                 hunit.portal(arrowUnit, endX, endY)
             end
         else
@@ -213,7 +213,7 @@ leap = function(options)
     htime.setInterval(frequency, function(t)
         local ax = hunit.x(arrowUnit)
         local ay = hunit.y(arrowUnit)
-        if (his.dead(sourceUnit)) then
+        if (hunit.isDead(sourceUnit)) then
             t.destroy()
             ending(ax, ay)
             return
@@ -240,7 +240,7 @@ leap = function(options)
         if (acceleration ~= 0) then
             speed = speed + acceleration
         end
-        if (his.borderMap(px, py) == false) then
+        if (hrect.isBorderPlayable(px, py) == false) then
             hunit.portal(arrowUnit, px, py)
         else
             speed = 0
@@ -294,7 +294,7 @@ leap = function(options)
             ddh = (heightOrigin + height) * (1 - math.abs(ddh) * 2)
             hunit.setFlyHeight(arrowUnit, ddh, 9999)
         end
-        if (distance <= speed or speed <= 0 or his.dead(arrowUnit) == true) then
+        if (distance <= speed or speed <= 0 or hunit.isDead(arrowUnit) == true) then
             t.destroy()
             ending(px, py)
         end
@@ -313,7 +313,7 @@ SKILL = function()
                 radius = 1000, --（选目标半径范围，默认500）
                 speed = 60, --冲击的速度（可选的，默认10，0.02秒的移动距离,大概1秒500px)
                 filter = function(enum)
-                    return his.enemy(evtData.triggerUnit, enum) and his.alive(enum)
+                    return hunit.isEnemy(evtData.triggerUnit, enum) and hunit.isAlive(enum)
                 end,
                 effectMovement = "Abilities\\Weapons\\PhoenixMissile\\Phoenix_Missile_mini.mdl", --移动过程，每个间距的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
                 damageEnd = 100, --移动结束时对目标的伤害（可选的，默认为0）

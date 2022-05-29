@@ -129,7 +129,7 @@ function missile(options)
         shakeDirect = -1
     end
     htime.setInterval(frequency, function(curTimer)
-        if (arrowToken == nil or his.unitDestroyed(sourceUnit) or (targetUnit ~= nil and his.unitDestroyed(targetUnit))) then
+        if (arrowToken == nil or hunit.isDestroyed(sourceUnit) or (targetUnit ~= nil and hunit.isDestroyed(targetUnit))) then
             curTimer.destroy()
             ending(ax, ay, false)
             return
@@ -156,7 +156,7 @@ function missile(options)
         if (acceleration ~= 0) then
             speed = speed + acceleration
         end
-        if (his.borderCamera(nx, ny)) then
+        if (hrect.isBorderCamera(nx, ny)) then
             curTimer.destroy()
             ending(ax, ay, false)
             return
@@ -235,7 +235,7 @@ SKILL = function()
             htime.setTimeout(1.5, function(curTimer)
                 curTimer.destroy()
                 local g = hgroup.createByXY(x, y, 600, function(filterUnit)
-                    return his.enemy(u, filterUnit) and his.alive(filterUnit)
+                    return hunit.isEnemy(u, filterUnit) and hunit.isAlive(filterUnit)
                 end)
                 hgroup.forEach(g, function(enumUnit, _)
                     hskill.damage({
@@ -260,7 +260,7 @@ SKILL = function()
                     startY = evtData.targetY, --强制设定初始创建的y坐标（可选的，同时设定 startX 时才有效）
                     onMove = function(unit, _, mx, my)
                         local mg = hgroup.createByXY(mx, my, 300, function(filterUnit)
-                            return his.enemy(unit, filterUnit) and his.alive(filterUnit)
+                            return hunit.isEnemy(unit, filterUnit) and hunit.isAlive(filterUnit)
                         end)
                         hgroup.forEach(mg, function(enumUnit, _)
                             --不重复伤害

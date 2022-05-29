@@ -19,10 +19,10 @@ SKILL = function()
                 x = hunit.x(u)
                 y = hunit.y(u)
                 local px, py = math.polarProjection(x, y, 400, 10 * i)
-                if (his.borderMap(px, py) == false) then
+                if (hrect.isBorderPlayable(px, py) == false) then
                     hjapi.EXSetEffectXY(tempEffectArrow, px, py)
                     local g = hgroup.createByXY(px, py, 200, function(filterUnit)
-                        return his.alive(filterUnit) and his.enemy(u, filterUnit)
+                        return hunit.isAlive(filterUnit) and hunit.isEnemy(u, filterUnit)
                     end)
                     hgroup.forEach(g, function(enumUnit, _)
                         hskill.damage({

@@ -23,7 +23,7 @@ SKILL = function()
                     2, 2, 2
                 )
                 local g = hgroup.createByXY(px, py, 300, function(filterUnit)
-                    return his.enemy(u, filterUnit) and his.alive(filterUnit)
+                    return hunit.isEnemy(u, filterUnit) and hunit.isAlive(filterUnit)
                 end)
                 hgroup.forEach(g, function(enumUnit, _)
                     hskill.damage({
