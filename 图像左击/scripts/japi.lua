@@ -1,6 +1,6 @@
 local JassHook = require 'jass.hook'
 
-EVT_CLICK = Array()
+EVT_CLICK = {}
 
 local c = cj.Cheat
 JassHook.Cheat = function(cheatStr)
@@ -25,6 +25,9 @@ end
 --- async
 ---@param callFunc {triggerFrame:number,triggerPlayer:userdata}
 function hjapi.HzClick(frame, callFunc)
-    EVT_CLICK.set(tostring(frame), callFunc)
-    hjapi.DzFrameSetScript(frame, MOUSE_ORDER_CLICK, "hzhook", false)
+    if (EVT_CLICK[frame] == nil) then
+        EVT_CLICK[frame] = Array()
+        hjapi.DzFrameSetScript(frame, MOUSE_ORDER_CLICK, "hzhook", false)
+    end
+    EVT_CLICK[frame].set(tostring(frame), callFunc)
 end
