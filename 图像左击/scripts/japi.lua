@@ -1,5 +1,6 @@
 local JassHook = require 'jass.hook'
 
+---@type table<string,Array>
 EVT_CLICK = {}
 
 local c = cj.Cheat
@@ -9,13 +10,17 @@ JassHook.Cheat = function(cheatStr)
             print("hook", cheatStr)
             local frame = string.explode("|", cheatStr)[2]
             print("frame", frame)
-            local callFunc = EVT_CLICK.get(frame)
-            print("callFunc", callFunc)
-            if (type(callFunc) == "function") then
-                callFunc({
-                    triggerFrame = frame,
-                    triggerPlayer = cj.GetLocalPlayer(),
-                })
+            local ec = EVT_CLICK[frame]
+            if (ec ~= nil) then
+                ec.forEach(function(key, value)
+                    print("kv=", key, value)
+                    if (type(value) == "function") then
+                        value({
+                            triggerFrame = frame,
+                            triggerPlayer = cj.GetLocalPlayer(),
+                        })
+                    end
+                end)
             end
         end
     end
@@ -24,10 +29,11 @@ end
 
 --- async
 ---@param callFunc {triggerFrame:number,triggerPlayer:userdata}
-function hjapi.HzClick(frame, callFunc)
-    if (EVT_CLICK[frame] == nil) then
-        EVT_CLICK[frame] = Array()
+function hjapi.HzClick(frame, key, callFunc)
+    local fk = tostring(frame)
+    if (EVT_CLICK[fk] == nil) then
+        EVT_CLICK[fk] = Array()
         hjapi.DzFrameSetScript(frame, MOUSE_ORDER_CLICK, "hzhook", false)
     end
-    EVT_CLICK[frame].set(tostring(frame), callFunc)
+    EVT_CLICK[fk].set(key, callFunc)
 end

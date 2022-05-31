@@ -24,7 +24,7 @@ function main()
 
     local txt = hjapi.FrameTag("TEXT", "HZ_TEXT", bg)
     hjapi.FrameRelation(txt, FRAME_ALIGN_CENTER, bg, FRAME_ALIGN_CENTER, 0, 0)
-    hjapi.DzFrameSetText(txt, "点我")
+    hjapi.DzFrameSetText(txt, "你好世界")
     print(txt)
 
     local btn = hjapi.FrameTag("BUTTON", "HZ_BUTTON", bg)
@@ -32,17 +32,21 @@ function main()
     hjapi.DzFrameSetSize(btn, 0.1, 0.13)
     print(btn)
 
-    hjapi.HzClick(btn, function()
-        print(htime.gone() .. ": hello")
+    hjapi.HzClick(btn, "hello", function()
+        print(htime.inc .. ": hello")
+    end)
+    hjapi.HzClick(btn, "world", function()
+        print(htime.inc .. ": world")
     end)
     hjapi.DzFrameShow(bg, true)
 
     -- 10秒后废弃点击
     htime.setTimeout(10, function()
         print("点击GG")
-        hjapi.HzClick(btn, nil)
-        hjapi.DzFrameSetAlpha(bg, 100)
-        hjapi.DzFrameSetText(txt, "没了")
+        hjapi.HzClick(btn, "hello", nil)
+        hjapi.DzFrameSetTexture(bg, "ReplaceableTextures\\TeamColor\\TeamColor09.blp", 0)
+        hjapi.DzFrameSetAlpha(bg, 200)
+        hjapi.DzFrameSetText(txt, "世界")
     end)
 
 end
