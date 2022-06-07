@@ -10,13 +10,13 @@ JAPI = function()
         if (type(callFunc) == "function") then
             _Refresh.set(key, callFunc)
         else
-            _Refresh.set(key)
+            _Refresh.splice(key)
         end
     end
 
     --- JAPI Refresh 初始化
     hjapi.DzFrameSetUpdateCallbackByCode(function()
-        if (cj.GetLocalPlayer() == cj.GetLocalPlayer()) then
+        if (cj.GetLocalPlayer() == cj.GetLocalPlayer()) then --仅作异步提醒
             _Refresh.forEach(function(_, call)
                 call()
             end)
