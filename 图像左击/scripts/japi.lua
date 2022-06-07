@@ -35,5 +35,9 @@ function hjapi.HzClick(frame, key, callFunc)
         EVT_CLICK[fk] = Array()
         hjapi.DzFrameSetScript(frame, MOUSE_ORDER_CLICK, "hzhook", false)
     end
-    EVT_CLICK[fk].set(key, callFunc)
+    if (type(callFunc) == "function") then
+        EVT_CLICK[fk].set(key, callFunc)
+    else
+        EVT_CLICK[fk].splice(key)
+    end
 end
