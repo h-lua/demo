@@ -3,7 +3,6 @@
 require "h-lua" -- h-lua库
 require "scripts.alias" -- alias h-lua库别称（参考）
 require "scripts.setup" -- setup 游戏准备
-require "scripts.arr" -- 数组
 require "scripts.ui" -- UI
 
 -- h-lua main function 主函数入口
@@ -14,10 +13,10 @@ function main()
     UI()
 
     local a = { a = 1 }
-    print(isArr(a))
+    print(isArray(a))
 
-    local arr = Arr()
-    print(isArr(arr))
+    local arr = Array()
+    print(isArray(arr))
     arr.set("c", 1)
     arr.set("b", 2)
     arr.set("a", 3)

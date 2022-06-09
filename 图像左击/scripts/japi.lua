@@ -38,6 +38,6 @@ function hjapi.HzClick(frame, key, callFunc)
     if (type(callFunc) == "function") then
         EVT_CLICK[fk].set(key, callFunc)
     else
-        EVT_CLICK[fk].splice(key)
+        EVT_CLICK[fk].set(key, nil)
     end
 end

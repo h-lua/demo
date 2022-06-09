@@ -10,7 +10,7 @@ JAPI = function()
         if (type(callFunc) == "function") then
             _Refresh.set(key, callFunc)
         else
-            _Refresh.splice(key)
+            _Refresh.set(key, nil)
         end
     end
 
