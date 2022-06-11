@@ -1,0 +1,24 @@
+﻿
+//说明框
+  Frame "BACKDROP" "exp_kk" {
+    BackdropTileBackground,
+    BackdropBackground "UI\Widgets\ToolTips\Human\human-tooltip-background.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize 0.012,
+    BackdropBackgroundSize 0.032,
+    BackdropBackgroundInsets 0.004f 0.004f 0.004f 0.004f,
+    BackdropEdgeFile "UI\Widgets\ToolTips\Human\human-tooltip-border.blp",
+    BackdropBlendAll,
+  }
+
+Frame "TEXT" "T666" {
+    DecorateFileNames,
+    FontJustificationH JUSTIFYCENTER,
+    FontJustificationV JUSTIFYMIDDLE,
+    FontFlags "FIXEDSIZE",
+    FontColor 1.0 1.0 1.0 1.0,
+    FontShadowColor 0.0 0.0 0.0 0.8,
+    FontShadowOffset 0.0004 -0.0004,
+    Text "",
+    FrameFont "MasterFont", 0.008, "",
+}
