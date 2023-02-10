@@ -1,2 +1,3 @@
 * 【repo】[https://github.com/h-lua/h-lua](https://github.com/h-lua/h-lua)
-* 【mirror】[https://gitlab.com/h-mirror/h-lua-demo](https://gitlab.com/h-mirror/h-lua-demo)
+* 【document】[https://h-lua.hunzsig.org](https://h-lua.hunzsig.org)
+* 【sponsor】[https://afdian.net/a/hunzsig](https://afdian.net/a/hunzsig)
